@@ -14,6 +14,8 @@ data class AppInfo(
     val dangerousPermissions: List<String>,
     val riskScore: Int,
     val riskLevel: RiskLevel,
+    /** True if the app matched the TrustedAppsWhitelist — score is capped regardless of permissions. */
+    val isTrusted: Boolean = false,
     val icon: Drawable? = null
 )
 

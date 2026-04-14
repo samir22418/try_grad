@@ -1,9 +1,13 @@
 package com.example.try_grad.ui.viewmodels
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.try_grad.data.local.entities.AppEntity
 import com.example.try_grad.data.repository.AppRepository
+import com.example.try_grad.data.repository.SyncResult
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -12,6 +16,8 @@ data class MainUiState(
     val filteredApps: List<AppEntity> = emptyList(),
     val isLoading: Boolean = false,
     val isScanning: Boolean = false,
+    val isSyncing: Boolean = false,
+    val syncStatus: SyncStatus = SyncStatus.Idle,
     val errorMessage: String? = null,
     val filterType: FilterType = FilterType.ALL,
     val searchQuery: String = "",
@@ -19,8 +25,19 @@ data class MainUiState(
     val highRiskCount: Int = 0
 )
 
-enum class FilterType {
-    ALL, USER_APPS, SYSTEM_APPS, HIGH_RISK
+sealed class SyncStatus {
+    object Idle : SyncStatus()
+    object Syncing : SyncStatus()
+    data class Success(val reportId: String?, val totalApps: Int) : SyncStatus()
+    data class Error(val message: String) : SyncStatus()
+    object NoData : SyncStatus()
+}
+
+enum class FilterType(val label: String) {
+    ALL("All Apps"),
+    USER_APPS("User Apps"),
+    SYSTEM_APPS("System Apps"),
+    HIGH_RISK("High Risk")
 }
 
 class MainViewModel(
@@ -52,7 +69,7 @@ class MainViewModel(
 
     fun startScan() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isScanning = true, errorMessage = null) }
+            _uiState.update { it.copy(isScanning = true, errorMessage = null, syncStatus = SyncStatus.Idle) }
             try {
                 repository.scanAndStoreAllApps()
                 _uiState.update { it.copy(isScanning = false) }
@@ -62,6 +79,44 @@ class MainViewModel(
                         isScanning = false,
                         errorMessage = "Scan failed: ${e.message}"
                     )
+                }
+            }
+        }
+    }
+
+    @SuppressLint("HardwareIds")
+    fun syncToServer(context: Context) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSyncing = true, syncStatus = SyncStatus.Syncing) }
+            val deviceId = Settings.Secure.getString(
+                context.contentResolver,
+                Settings.Secure.ANDROID_ID
+            ) ?: "unknown_device"
+
+            when (val result = repository.syncToServer(deviceId)) {
+                is SyncResult.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            isSyncing = false,
+                            syncStatus = SyncStatus.Success(
+                                reportId = result.response.reportId,
+                                totalApps = result.response.totalApps
+                            )
+                        )
+                    }
+                }
+                is SyncResult.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isSyncing = false,
+                            syncStatus = SyncStatus.Error(result.message)
+                        )
+                    }
+                }
+                is SyncResult.NoData -> {
+                    _uiState.update {
+                        it.copy(isSyncing = false, syncStatus = SyncStatus.NoData)
+                    }
                 }
             }
         }
@@ -85,13 +140,20 @@ class MainViewModel(
         }
     }
 
+    fun clearError() {
+        _uiState.update { it.copy(errorMessage = null) }
+    }
+
+    fun clearSyncStatus() {
+        _uiState.update { it.copy(syncStatus = SyncStatus.Idle) }
+    }
+
     private fun loadApps() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
                 val count = repository.getAppCount()
                 if (count == 0) {
-                    // First time - scan automatically
                     startScan()
                 } else {
                     _uiState.update { it.copy(isLoading = false) }
@@ -127,9 +189,5 @@ class MainViewModel(
         }
 
         return filtered
-    }
-
-    fun clearError() {
-        _uiState.update { it.copy(errorMessage = null) }
     }
 }

@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
         viewModel = MainViewModel(repository)
 
         setContent {
-            Try_gradTheme {
+            Try_gradTheme {  // Always dark – no params needed
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

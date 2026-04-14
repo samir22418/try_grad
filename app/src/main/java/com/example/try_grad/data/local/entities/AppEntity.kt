@@ -13,12 +13,13 @@ data class AppEntity(
     val installDate: Long,
     val updateDate: Long,
     val isSystemApp: Boolean,
-    val riskScore: Int, // 0-100
-    val riskLevel: String, // LOW, MEDIUM, HIGH, CRITICAL
+    val riskScore: Int,           // 0-100
+    val riskLevel: String,        // LOW, MEDIUM, HIGH, CRITICAL
+    val isTrusted: Boolean = false, // Whitelisted publisher / famous app
     val dangerousPermissionsCount: Int,
     val normalPermissionsCount: Int,
     val signaturePermissionsCount: Int,
-    val allPermissions: String, // JSON array as string
+    val allPermissions: String,   // JSON array as string
     val scanDate: Long,
     val iconPath: String? = null
 )
