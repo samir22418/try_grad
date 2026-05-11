@@ -19,6 +19,11 @@ const friendDetails = {
     note: "Looks like he came prepared for the ceremony and the board meeting.",
     move: "The jacket adjustment",
   },
+  fawzi: {
+    title: "Night leather",
+    note: "City lights, black leather, and a smile that turns the night photo into a memory.",
+    move: "The night river smile",
+  },
   gemy: {
     title: "Mirror legend",
     note: "Quiet smile, sharp glasses, and a phone that knows all the angles.",
@@ -96,6 +101,7 @@ const friendNames = [
   "amgad",
   "ali",
   "bassit",
+  "fawzi",
   "gemy",
   "gohar",
   "hamed",
@@ -140,6 +146,7 @@ const awards = [
   "Most likely to start the chant",
   "Group-chat historian",
   "Ceremony scene stealer",
+  "Night-photo specialist",
 ];
 
 const stageLines = [
