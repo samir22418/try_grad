@@ -16,20 +16,32 @@
 
         <nav class="tabs" aria-label="Views">
           <button class="tab active" type="button" data-view="stage">Stage</button>
+          <button class="tab" type="button" data-view="show">Show</button>
           <button class="tab" type="button" data-view="gallery">Wall</button>
           <button class="tab" type="button" data-view="match">Match</button>
+          <button class="tab" type="button" data-view="vote">Vote</button>
+          <button class="tab" type="button" data-view="who">Who?</button>
+          <button class="tab" type="button" data-view="photo">Photo</button>
+          <button class="tab" type="button" data-view="wheel">Wheel</button>
+          <button class="tab" type="button" data-view="bracket">Bracket</button>
           <button class="tab" type="button" data-view="guess">Guess</button>
           <button class="tab" type="button" data-view="moves">Moves</button>
           <button class="tab" type="button" data-view="squad">Squad</button>
           <button class="tab" type="button" data-view="bingo">Bingo</button>
           <button class="tab" type="button" data-view="vibes">Vibes</button>
           <button class="tab" type="button" data-view="awards">Awards</button>
+          <button class="tab" type="button" data-view="finale">Finale</button>
         </nav>
 
         <section class="mood-panel" aria-label="Vibe mode">
           <button class="mood-button active" type="button" data-mood="sunset">Sunset</button>
           <button class="mood-button" type="button" data-mood="midnight">Midnight</button>
           <button class="mood-button" type="button" data-mood="campus">Campus</button>
+        </section>
+
+        <section class="language-panel" aria-label="Language mode">
+          <button class="language-button active" type="button" data-language="en">English</button>
+          <button class="language-button" type="button" data-language="ar">Masri</button>
         </section>
 
         <section class="score-panel" aria-label="Game score">
@@ -77,6 +89,24 @@
           <div class="memory-reel" id="memoryReel"></div>
         </section>
 
+        <section class="view" id="show">
+          <div class="show-stage">
+            <div class="show-copy">
+              <p class="eyebrow" id="showKicker">Host mode</p>
+              <h2 id="showTitle">Graduation Game Show</h2>
+              <p id="showBrief">Run the whole night from one big-screen controller.</p>
+              <div class="show-timer" id="showTimer">30</div>
+              <div class="stage-actions">
+                <button class="icon-button dark" id="startShow" type="button">Start show</button>
+                <button class="icon-button" id="revealShow" type="button">Reveal</button>
+                <button class="icon-button" id="nextShow" type="button">Next round</button>
+              </div>
+            </div>
+            <div class="show-result" id="showResult"></div>
+          </div>
+          <div class="show-rundown" id="showRundown"></div>
+        </section>
+
         <section class="view" id="gallery">
           <div class="toolbar">
             <h2>Yearbook Wall</h2>
@@ -91,6 +121,98 @@
             <button class="icon-button" id="resetMatch" type="button" title="Reset match game">Reset</button>
           </div>
           <div class="match-board" id="matchBoard"></div>
+        </section>
+
+        <section class="view" id="vote">
+          <div class="toolbar">
+            <div>
+              <h2>Most Likely To</h2>
+              <p class="game-status" id="voteStatus">Tap friends to collect votes, then reveal the winner.</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="icon-button" id="newVotePrompt" type="button">New prompt</button>
+              <button class="icon-button" id="revealVote" type="button">Reveal winner</button>
+              <button class="icon-button" id="resetVote" type="button">Reset votes</button>
+            </div>
+          </div>
+          <article class="prompt-card">
+            <span id="voteRound">Vote 1</span>
+            <strong id="votePrompt"></strong>
+            <p id="voteWinner">No votes yet.</p>
+          </article>
+          <div class="vote-grid" id="voteGrid"></div>
+        </section>
+
+        <section class="view" id="who">
+          <div class="toolbar">
+            <div>
+              <h2>Who Would?</h2>
+              <p class="game-status" id="whoFeedback">Pick the friend who fits the scene.</p>
+            </div>
+            <button class="icon-button" id="nextWho" type="button">Next scene</button>
+          </div>
+          <div class="moves-game">
+            <article class="clue-card">
+              <span id="whoRound">Scene 1</span>
+              <strong id="whoPrompt"></strong>
+              <p id="whoHint"></p>
+            </article>
+            <div class="who-options" id="whoOptions"></div>
+          </div>
+        </section>
+
+        <section class="view" id="photo">
+          <div class="toolbar">
+            <div>
+              <h2>Photo Roulette</h2>
+              <p class="game-status" id="photoStatus">Reveal the photo step by step before guessing.</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="icon-button" id="revealPhotoStep" type="button">Reveal more</button>
+              <button class="icon-button" id="solvePhoto" type="button">Show answer</button>
+              <button class="icon-button" id="newPhotoRoulette" type="button">New photo</button>
+            </div>
+          </div>
+          <div class="photo-roulette-layout">
+            <div class="photo-roulette-frame reveal-step-0" id="photoRouletteFrame">
+              <img id="photoRouletteImage" alt="Hidden graduation photo">
+              <span id="photoRevealBadge">Step 1</span>
+            </div>
+            <div class="photo-answer-card" id="photoAnswerCard"></div>
+          </div>
+        </section>
+
+        <section class="view" id="wheel">
+          <div class="toolbar">
+            <div>
+              <h2>Wheel of Chaos</h2>
+              <p class="game-status" id="wheelStatus">Spin, pick a friend, and give them a mission.</p>
+            </div>
+            <button class="icon-button dark" id="spinWheel" type="button">Spin wheel</button>
+          </div>
+          <div class="wheel-layout">
+            <div class="chaos-wheel" id="chaosWheel">
+              <div class="wheel-core">SPIN</div>
+            </div>
+            <article class="wheel-result" id="wheelResult"></article>
+          </div>
+        </section>
+
+        <section class="view" id="bracket">
+          <div class="toolbar">
+            <div>
+              <h2>Tournament Bracket</h2>
+              <p class="game-status" id="bracketStatus">Choose the winner in each face-off until one champion survives.</p>
+            </div>
+            <button class="icon-button" id="newBracket" type="button">New tournament</button>
+          </div>
+          <article class="prompt-card">
+            <span id="bracketCategory">Best Fit Championship</span>
+            <strong id="bracketRound">Round 1</strong>
+            <p id="bracketProgress"></p>
+          </article>
+          <div class="bracket-matchup" id="bracketMatchup"></div>
+          <div class="bracket-log" id="bracketLog"></div>
         </section>
 
         <section class="view" id="guess">
@@ -180,6 +302,20 @@
             <button class="icon-button" id="rerollAwards" type="button" title="Reroll awards">Reroll</button>
           </div>
           <div class="award-grid" id="awardGrid"></div>
+        </section>
+
+        <section class="view" id="finale">
+          <div class="toolbar">
+            <div>
+              <h2>Final Awards Ceremony</h2>
+              <p class="game-status" id="finaleStatus">Generate shareable ceremony cards for the whole crew.</p>
+            </div>
+            <div class="toolbar-actions">
+              <button class="icon-button" id="generateFinale" type="button">Generate cards</button>
+              <button class="icon-button" id="printFinale" type="button">Print cards</button>
+            </div>
+          </div>
+          <div class="certificate-grid" id="certificateGrid"></div>
         </section>
 
       </section>

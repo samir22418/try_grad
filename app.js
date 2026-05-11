@@ -243,9 +243,225 @@ const bingoPrompts = [
   "Someone becomes the map reader",
 ];
 
+const mostLikelyPrompts = {
+  en: [
+    "Most likely to arrive late and still look innocent",
+    "Most likely to become the group CEO",
+    "Most likely to save the whole plan at the last minute",
+    "Most likely to say one more photo",
+    "Most likely to turn a normal moment into a story",
+    "Most likely to start a chant for no reason",
+    "Most likely to know where everyone disappeared",
+    "Most likely to make the final reel legendary",
+  ],
+  ar: [
+    "مين أكتر واحد هيتأخر ويبان بريء؟",
+    "مين أكتر واحد هيبقى CEO الشلة؟",
+    "مين أكتر واحد هينقذ الخطة في آخر لحظة؟",
+    "مين أكتر واحد هيقول صورة كمان؟",
+    "مين أكتر واحد يحول أي موقف لقصة؟",
+    "مين أكتر واحد يبدأ هتاف من غير سبب؟",
+    "مين أكتر واحد يعرف الناس اختفت فين؟",
+    "مين أكتر واحد هيخلي الريل أسطوري؟",
+  ],
+};
+
+const whoPrompts = {
+  en: [
+    "Who would disappear for ten minutes then return with food?",
+    "Who would convince everyone that one more photo is necessary?",
+    "Who would remember a random first-year story at the worst time?",
+    "Who would turn a serious picture into chaos?",
+    "Who would become the official ceremony manager?",
+    "Who would give a motivational speech out of nowhere?",
+    "Who would keep all the screenshots for historical reasons?",
+    "Who would make everyone laugh when the photo is supposed to be serious?",
+  ],
+  ar: [
+    "مين ممكن يختفي عشر دقايق ويرجع بأكل؟",
+    "مين هيقنع الكل إن لازم صورة كمان؟",
+    "مين هيفتكر قصة من أول سنة في أغرب وقت؟",
+    "مين يحول الصورة الجدية لفوضى؟",
+    "مين هيبقى مدير الحفلة الرسمي؟",
+    "مين هيطلع يخطب فجأة؟",
+    "مين محتفظ بكل السكرينات للتاريخ؟",
+    "مين يضحك الناس في الصورة الجدية؟",
+  ],
+};
+
+const chaosMissions = {
+  en: [
+    "Do your graduation pose in five seconds.",
+    "Give one sentence to the class of tomorrow.",
+    "Choose someone who helped you survive this year.",
+    "Recreate your most dramatic university moment.",
+    "Give a tiny roast and keep it friendly.",
+    "Pick the next person who must spin.",
+    "Tell the group what this day will be remembered for.",
+    "Make the official final-photo face.",
+  ],
+  ar: [
+    "اعمل بوز التخرج في خمس ثواني.",
+    "قول جملة واحدة للدفعة الجاية.",
+    "اختار حد ساعدك تعدي السنة دي.",
+    "مثل أكتر موقف جامعي درامي ليك.",
+    "اعمل roast خفيف ولطيف.",
+    "اختار الشخص اللي هيلف بعدك.",
+    "قول اليوم ده هيفضل فاكرينه بإيه.",
+    "اعمل وش الصورة الرسمية الأخيرة.",
+  ],
+};
+
+const bracketCategories = {
+  en: ["Best Fit Championship", "Main Character Cup", "Best Smile Knockout", "Final Photo MVP"],
+  ar: ["بطولة أحسن fit", "كأس الشخصية الرئيسية", "خروج المغلوب لأحسن ضحكة", "نجم الصورة الأخيرة"],
+};
+
+const finalAwards = {
+  en: [
+    "Certified Vibe Manager",
+    "Main Character of the Night",
+    "Best Fit Finalist",
+    "Group Chat Historian",
+    "Photo Director",
+    "Chaos Coordinator",
+    "Ceremony Scene Stealer",
+    "Final Selfie Specialist",
+    "After-Party Captain",
+    "Memory Keeper",
+  ],
+  ar: [
+    "مدير الفايب الرسمي",
+    "الشخصية الرئيسية الليلة",
+    "نهائي أحسن fit",
+    "مؤرخ الجروب شات",
+    "مخرج الصور",
+    "منسق الفوضى",
+    "خاطف مشهد الحفلة",
+    "متخصص السيلفي الأخيرة",
+    "كابتن ما بعد الحفلة",
+    "حارس الذكريات",
+  ],
+};
+
+const showRounds = {
+  en: [
+    ["Opening round", "Start with a random spotlight. Everyone gets one loud introduction."],
+    ["Most Likely To", "Read the prompt, let the room shout, then reveal a candidate."],
+    ["Photo Roulette", "Reveal the photo one step at a time until somebody guesses."],
+    ["Wheel of Chaos", "Spin the wheel and give the chosen friend a live mission."],
+    ["Final Award", "End the round with one dramatic certificate moment."],
+  ],
+  ar: [
+    ["افتتاح الشو", "ابدأ بسبوت لايت عشوائي وكل واحد ياخد تقديم جامد."],
+    ["Most Likely To", "اقرأ السؤال وسيب القاعة تصوت وبعدين اكشف مرشح."],
+    ["Photo Roulette", "اكشف الصورة خطوة خطوة لحد ما حد يعرف."],
+    ["عجلة المهمات", "لف العجلة وادي المهمة للشخص المختار."],
+    ["جائزة النهاية", "اختم الجولة بشهادة درامية."],
+  ],
+};
+
+const uiCopy = {
+  en: {
+    sidebarTitle: "Memories & Vibes",
+    sidebarEyebrow: "Graduation day",
+    stageTitle: "One day, many memories",
+    stageEyebrow: "Class friends",
+    stageSpotlight: "Spotlight",
+    stageConfetti: "Confetti",
+    showStart: "Start show",
+    showReveal: "Reveal",
+    showNext: "Next round",
+    voteEmpty: "No votes yet.",
+    voteStatus: "Tap friends to collect votes, then reveal the winner.",
+    whoStatus: "Pick the friend who fits the scene.",
+    photoStatus: "Reveal the photo step by step before guessing.",
+    wheelStatus: "Spin, pick a friend, and give them a mission.",
+    bracketStatus: "Choose the winner in each face-off until one champion survives.",
+    finaleStatus: "Generate shareable ceremony cards for the whole crew.",
+  },
+  ar: {
+    sidebarTitle: "ذكريات وفايبس",
+    sidebarEyebrow: "يوم التخرج",
+    stageTitle: "يوم واحد، ذكريات كتير",
+    stageEyebrow: "صحاب الدفعة",
+    stageSpotlight: "سبوت لايت",
+    stageConfetti: "كونفيتي",
+    showStart: "ابدأ الشو",
+    showReveal: "اكشف",
+    showNext: "الجولة اللي بعدها",
+    voteEmpty: "لسه مفيش تصويت.",
+    voteStatus: "دوس على الأصحاب عشان تجمع أصوات، وبعدين اكشف الفائز.",
+    whoStatus: "اختار الشخص الأنسب للموقف.",
+    photoStatus: "اكشف الصورة خطوة خطوة قبل التخمين.",
+    wheelStatus: "لف العجلة، اختار شخص، واديه مهمة.",
+    bracketStatus: "اختار الفائز في كل مواجهة لحد ما يفضل بطل واحد.",
+    finaleStatus: "طلع كروت جوائز للشلة كلها.",
+  },
+};
+
+const tabLabels = {
+  en: {
+    stage: "Stage",
+    show: "Show",
+    gallery: "Wall",
+    match: "Match",
+    vote: "Vote",
+    who: "Who?",
+    photo: "Photo",
+    wheel: "Wheel",
+    bracket: "Bracket",
+    guess: "Guess",
+    moves: "Moves",
+    squad: "Squad",
+    bingo: "Bingo",
+    vibes: "Vibes",
+    awards: "Awards",
+    finale: "Finale",
+  },
+  ar: {
+    stage: "المسرح",
+    show: "الشو",
+    gallery: "الصور",
+    match: "ماتش",
+    vote: "تصويت",
+    who: "مين؟",
+    photo: "الصورة",
+    wheel: "العجلة",
+    bracket: "بطولة",
+    guess: "خمن",
+    moves: "الحركات",
+    squad: "سكواد",
+    bingo: "بينجو",
+    vibes: "فايبس",
+    awards: "جوائز",
+    finale: "النهاية",
+  },
+};
+
 let matchFirst = null;
 let matchedNames = new Set();
 let spotlightIndex = friends.findIndex((friend) => friend.name === "samir");
+let currentLanguage = "en";
+let showIndex = 0;
+let showTimer = 30;
+let showInterval = null;
+let showRevealed = false;
+let voteRound = 1;
+let votePrompt = null;
+let voteCounts = {};
+let whoRound = 1;
+let whoPrompt = null;
+let whoPicks = [];
+let photoCurrent = null;
+let photoRevealStep = 0;
+let wheelRotation = 0;
+let bracketQueue = [];
+let bracketWinners = [];
+let bracketRoundNumber = 1;
+let bracketBattle = 1;
+let bracketCategory = null;
+let bracketHistory = [];
 let vibeRound = 1;
 let vibeCurrent = null;
 let vibePicks = [];
@@ -267,6 +483,14 @@ const $ = (selector) => document.querySelector(selector);
 
 function titleName(name) {
   return name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+function localList(collection) {
+  return collection[currentLanguage] || collection.en;
+}
+
+function text(key) {
+  return (uiCopy[currentLanguage] && uiCopy[currentLanguage][key]) || uiCopy.en[key] || key;
 }
 
 function shuffle(items) {
@@ -292,6 +516,51 @@ function imageWithPhotoFallback(img, friend) {
     img.onerror = null;
     img.src = friend.avatar;
   };
+}
+
+function createFriendThumb(friend, altSuffix = "") {
+  const img = document.createElement("img");
+  img.alt = `${titleName(friend.name)} ${altSuffix}`.trim();
+  imageWithAvatarFallback(img, friend);
+  return img;
+}
+
+function setLanguage(language) {
+  currentLanguage = language;
+  document.documentElement.lang = language === "ar" ? "ar" : "en";
+  document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+  document.body.dataset.language = language;
+
+  document.querySelector(".sidebar .eyebrow").textContent = text("sidebarEyebrow");
+  document.querySelector(".sidebar h1").textContent = text("sidebarTitle");
+  document.querySelector("#stage .eyebrow").textContent = text("stageEyebrow");
+  document.querySelector(".stage-copy h2").textContent = text("stageTitle");
+  $("#spinSpotlight").textContent = text("stageSpotlight");
+  $("#confettiButton").textContent = text("stageConfetti");
+  $("#startShow").textContent = text("showStart");
+  $("#revealShow").textContent = text("showReveal");
+  $("#nextShow").textContent = text("showNext");
+  $("#voteStatus").textContent = text("voteStatus");
+  if (!whoPicks.length) $("#whoFeedback").textContent = text("whoStatus");
+  $("#photoStatus").textContent = text("photoStatus");
+  $("#wheelStatus").textContent = text("wheelStatus");
+  $("#bracketStatus").textContent = text("bracketStatus");
+  $("#finaleStatus").textContent = text("finaleStatus");
+
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.textContent = tabLabels[language][tab.dataset.view] || tab.textContent;
+  });
+  document.querySelectorAll(".language-button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.language === language);
+  });
+
+  renderShow();
+  renderVote();
+  renderWho();
+  renderPhotoRoulette();
+  renderWheel();
+  renderBracket();
+  renderFinale();
 }
 
 function burstConfetti() {
@@ -466,6 +735,349 @@ function flipMatchCard(card) {
   }, 700);
 }
 
+function renderShow() {
+  const rounds = localList(showRounds);
+  const [title, brief] = rounds[showIndex % rounds.length];
+  $("#showKicker").textContent = currentLanguage === "ar" ? "وضع المذيع" : "Host mode";
+  $("#showTitle").textContent = title;
+  $("#showBrief").textContent = brief;
+  $("#showTimer").textContent = showTimer;
+  renderShowRundown();
+
+  const result = $("#showResult");
+  result.className = "show-result";
+  result.innerHTML = "";
+
+  if (!showRevealed) {
+    result.innerHTML = `<span>${currentLanguage === "ar" ? "جاهز للكشف" : "Ready to reveal"}</span><strong>${
+      currentLanguage === "ar" ? "اضغط اكشف لما القاعة تبقى جاهزة" : "Hit reveal when the room is ready"
+    }</strong>`;
+    return;
+  }
+
+  const friend = shuffle(friends)[0];
+  const img = createFriendThumb(friend, "show result");
+  const prompt = shuffle(localList(mostLikelyPrompts))[0];
+  const mission = shuffle(localList(chaosMissions))[0];
+  const award = shuffle(localList(finalAwards))[0];
+
+  result.className = "show-result filled";
+  result.innerHTML = `<span>${prompt}</span><strong>${friend.name}</strong><p>${mission}</p><em>${award}</em>`;
+  result.prepend(img);
+}
+
+function renderShowRundown() {
+  const rundown = $("#showRundown");
+  rundown.innerHTML = "";
+  localList(showRounds).forEach(([title, brief], index) => {
+    const card = document.createElement("article");
+    card.className = `rundown-card ${index === showIndex ? "active" : ""}`;
+    card.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><strong>${title}</strong><p>${brief}</p>`;
+    rundown.append(card);
+  });
+}
+
+function startShowTimer() {
+  window.clearInterval(showInterval);
+  showTimer = 30;
+  $("#showTimer").textContent = showTimer;
+  showInterval = window.setInterval(() => {
+    showTimer -= 1;
+    $("#showTimer").textContent = showTimer;
+    if (showTimer <= 0) window.clearInterval(showInterval);
+  }, 1000);
+}
+
+function startShow() {
+  showIndex = 0;
+  showRevealed = false;
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  }
+  startShowTimer();
+  renderShow();
+}
+
+function revealShow() {
+  showRevealed = true;
+  window.clearInterval(showInterval);
+  renderShow();
+  burstConfetti();
+}
+
+function nextShowRound() {
+  showIndex = (showIndex + 1) % localList(showRounds).length;
+  showRevealed = false;
+  startShowTimer();
+  renderShow();
+}
+
+function renderVote(newPrompt = false) {
+  if (!votePrompt || newPrompt) {
+    votePrompt = shuffle(localList(mostLikelyPrompts))[0];
+    voteCounts = {};
+    if (newPrompt) voteRound += 1;
+  }
+
+  $("#voteRound").textContent = currentLanguage === "ar" ? `تصويت ${voteRound}` : `Vote ${voteRound}`;
+  $("#votePrompt").textContent = votePrompt;
+  $("#voteWinner").textContent = text("voteEmpty");
+  if (newPrompt || !Object.keys(voteCounts).length) $("#voteStatus").textContent = text("voteStatus");
+
+  const grid = $("#voteGrid");
+  grid.innerHTML = "";
+  friends.forEach((friend) => {
+    const count = voteCounts[friend.name] || 0;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `vote-card ${count ? "has-votes" : ""}`;
+    button.innerHTML = `<span>${count} ${currentLanguage === "ar" ? "صوت" : "votes"}</span><strong>${friend.name}</strong><p>${friend.title}</p>`;
+    button.prepend(createFriendThumb(friend, "vote option"));
+    button.addEventListener("click", () => castVote(friend));
+    grid.append(button);
+  });
+}
+
+function castVote(friend) {
+  voteCounts[friend.name] = (voteCounts[friend.name] || 0) + 1;
+  $("#voteStatus").textContent =
+    currentLanguage === "ar" ? `${titleName(friend.name)} أخد صوت.` : `${titleName(friend.name)} got a vote.`;
+  renderVote();
+}
+
+function revealVoteWinner() {
+  const entries = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) {
+    $("#voteWinner").textContent = text("voteEmpty");
+    return;
+  }
+
+  const [name, count] = entries[0];
+  $("#voteWinner").textContent =
+    currentLanguage === "ar"
+      ? `${titleName(name)} كسب بـ ${count} صوت.`
+      : `${titleName(name)} wins with ${count} vote${count === 1 ? "" : "s"}.`;
+  burstConfetti();
+}
+
+function resetVote() {
+  voteCounts = {};
+  renderVote();
+}
+
+function renderWho(newScene = false) {
+  if (!whoPrompt || newScene) {
+    whoPrompt = shuffle(localList(whoPrompts))[0];
+    whoPicks = [];
+    if (newScene) whoRound += 1;
+  }
+
+  $("#whoRound").textContent = currentLanguage === "ar" ? `مشهد ${whoRound}` : `Scene ${whoRound}`;
+  $("#whoPrompt").textContent = whoPrompt;
+  $("#whoHint").textContent =
+    currentLanguage === "ar" ? "اختاروا بسرعة، مفيش إجابة غلط." : "Pick fast. There is no wrong answer.";
+  if (!whoPicks.length) $("#whoFeedback").textContent = text("whoStatus");
+
+  const options = $("#whoOptions");
+  options.innerHTML = "";
+  friends.forEach((friend) => {
+    const picked = whoPicks.includes(friend.name);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `who-option ${picked ? "selected" : ""}`;
+    button.disabled = picked;
+    button.innerHTML = `<strong>${friend.name}</strong><span>${friend.title}</span>`;
+    button.prepend(createFriendThumb(friend, "who option"));
+    button.addEventListener("click", () => chooseWho(friend));
+    options.append(button);
+  });
+}
+
+function chooseWho(friend) {
+  if (whoPicks.includes(friend.name)) return;
+  whoPicks.push(friend.name);
+  $("#whoFeedback").textContent =
+    currentLanguage === "ar"
+      ? `${titleName(friend.name)} اتحط في المشهد.`
+      : `${titleName(friend.name)} is locked into the scene.`;
+  if (whoPicks.length === 3) burstConfetti();
+  renderWho();
+}
+
+function renderPhotoRoulette(newPhoto = false) {
+  if (!photoCurrent || newPhoto) {
+    photoCurrent = shuffle(friends)[0];
+    photoRevealStep = 0;
+  }
+
+  const frame = $("#photoRouletteFrame");
+  const img = $("#photoRouletteImage");
+  frame.className = `photo-roulette-frame reveal-step-${photoRevealStep}`;
+  imageWithPhotoFallback(img, photoCurrent);
+  img.alt = `${titleName(photoCurrent.name)} hidden graduation photo`;
+  $("#photoRevealBadge").textContent =
+    currentLanguage === "ar" ? `خطوة ${photoRevealStep + 1}` : `Step ${photoRevealStep + 1}`;
+
+  const answer = $("#photoAnswerCard");
+  answer.className = "photo-answer-card";
+  answer.innerHTML = "";
+  if (photoRevealStep < 4) {
+    answer.innerHTML = `<span>${currentLanguage === "ar" ? "لسه مستخبي" : "Still hidden"}</span><strong>${
+      currentLanguage === "ar" ? "اكشف جزء كمان أو خمن بصوت عالي" : "Reveal more or guess out loud"
+    }</strong>`;
+    return;
+  }
+
+  answer.className = "photo-answer-card revealed";
+  answer.innerHTML = `<span>${currentLanguage === "ar" ? "الإجابة" : "Answer"}</span><strong>${photoCurrent.name}</strong><p>${photoCurrent.note}</p>`;
+  answer.prepend(createFriendThumb(photoCurrent, "photo answer"));
+}
+
+function revealPhotoStep() {
+  photoRevealStep = Math.min(photoRevealStep + 1, 4);
+  renderPhotoRoulette();
+  if (photoRevealStep === 4) burstConfetti();
+}
+
+function solvePhotoRoulette() {
+  photoRevealStep = 4;
+  renderPhotoRoulette();
+  burstConfetti();
+}
+
+function renderWheel() {
+  const wheel = $("#chaosWheel");
+  const core = wheel.querySelector(".wheel-core");
+  wheel.innerHTML = "";
+  wheel.append(core);
+  wheel.style.transform = `rotate(${wheelRotation}deg)`;
+
+  shuffle(friends).slice(0, 12).forEach((friend, index) => {
+    const label = document.createElement("span");
+    label.className = "wheel-name";
+    label.style.transform = `rotate(${index * 30}deg) translateY(-128px) rotate(-${index * 30}deg)`;
+    label.textContent = friend.name;
+    wheel.append(label);
+  });
+
+  if (!$("#wheelResult").innerHTML) {
+    $("#wheelResult").innerHTML = `<span>${currentLanguage === "ar" ? "مستني اللفة" : "Waiting for spin"}</span><strong>${
+      currentLanguage === "ar" ? "اضغط Spin" : "Hit Spin"
+    }</strong>`;
+  }
+}
+
+function spinWheel() {
+  const friend = shuffle(friends)[0];
+  const mission = shuffle(localList(chaosMissions))[0];
+  wheelRotation += 720 + Math.floor(Math.random() * 360);
+  $("#chaosWheel").style.transform = `rotate(${wheelRotation}deg)`;
+  window.setTimeout(() => {
+    const result = $("#wheelResult");
+    result.innerHTML = `<span>${currentLanguage === "ar" ? "المهمة" : "Mission"}</span><strong>${friend.name}</strong><p>${mission}</p>`;
+    result.prepend(createFriendThumb(friend, "wheel result"));
+    burstConfetti();
+  }, 780);
+}
+
+function startBracket() {
+  bracketQueue = shuffle(friends);
+  bracketWinners = [];
+  bracketRoundNumber = 1;
+  bracketBattle = 1;
+  bracketHistory = [];
+  bracketCategory = shuffle(localList(bracketCategories))[0];
+  renderBracket();
+}
+
+function normalizeBracketQueue() {
+  while (bracketQueue.length < 2 && bracketWinners.length > 0) {
+    if (bracketQueue.length === 1) bracketWinners.push(bracketQueue.shift());
+    bracketQueue = bracketWinners;
+    bracketWinners = [];
+    bracketRoundNumber += 1;
+    bracketBattle = 1;
+  }
+}
+
+function renderBracket() {
+  if (!bracketQueue.length && !bracketCategory) startBracket();
+  normalizeBracketQueue();
+
+  $("#bracketCategory").textContent = bracketCategory || localList(bracketCategories)[0];
+  $("#bracketRound").textContent =
+    currentLanguage === "ar" ? `الجولة ${bracketRoundNumber}` : `Round ${bracketRoundNumber}`;
+  $("#bracketProgress").textContent =
+    currentLanguage === "ar"
+      ? `${bracketQueue.length + bracketWinners.length} لسه في البطولة`
+      : `${bracketQueue.length + bracketWinners.length} still in the tournament`;
+
+  const matchup = $("#bracketMatchup");
+  matchup.innerHTML = "";
+
+  if (bracketQueue.length === 1 && bracketWinners.length === 0) {
+    const champion = bracketQueue[0];
+    const card = document.createElement("article");
+    card.className = "champion-card";
+    card.innerHTML = `<span>${currentLanguage === "ar" ? "البطل" : "Champion"}</span><strong>${champion.name}</strong><p>${bracketCategory}</p>`;
+    card.prepend(createFriendThumb(champion, "bracket champion"));
+    matchup.append(card);
+    $("#bracketStatus").textContent =
+      currentLanguage === "ar" ? `${titleName(champion.name)} كسب البطولة.` : `${titleName(champion.name)} wins the bracket.`;
+    burstConfetti();
+    renderBracketLog();
+    return;
+  }
+
+  const pair = bracketQueue.slice(0, 2);
+  pair.forEach((friend) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "bracket-card";
+    button.innerHTML = `<span>${currentLanguage === "ar" ? "اختار" : "Pick winner"}</span><strong>${friend.name}</strong><p>${friend.title}</p>`;
+    button.prepend(createFriendThumb(friend, "bracket option"));
+    button.addEventListener("click", () => chooseBracketWinner(friend));
+    matchup.append(button);
+  });
+
+  renderBracketLog();
+}
+
+function chooseBracketWinner(friend) {
+  const pair = bracketQueue.splice(0, 2);
+  const loser = pair.find((candidate) => candidate.name !== friend.name);
+  bracketWinners.push(friend);
+  bracketHistory.unshift(`${friend.name} > ${loser ? loser.name : "bye"}`);
+  bracketBattle += 1;
+  renderBracket();
+}
+
+function renderBracketLog() {
+  const log = $("#bracketLog");
+  log.innerHTML = "";
+  bracketHistory.slice(0, 8).forEach((line) => {
+    const item = document.createElement("span");
+    item.textContent = line;
+    log.append(item);
+  });
+}
+
+function renderFinale() {
+  const grid = $("#certificateGrid");
+  grid.innerHTML = "";
+  const awardsList = shuffle(localList(finalAwards));
+
+  friends.forEach((friend, index) => {
+    const certificate = document.createElement("article");
+    certificate.className = `certificate-card ${featuredNames.includes(friend.name) ? "featured-certificate" : ""}`;
+    certificate.innerHTML = `<span>${currentLanguage === "ar" ? "شهادة تخرج الشلة" : "Graduation crew certificate"}</span><strong>${
+      friend.name
+    }</strong><p>${awardsList[index % awardsList.length]}</p><em>${friend.move}</em>`;
+    certificate.prepend(createFriendThumb(friend, "certificate"));
+    grid.append(certificate);
+  });
+}
+
 function renderGuess(newPhoto = false) {
   if (!guessCurrent || newPhoto) {
     guessCurrent = shuffle(friends)[0];
@@ -521,7 +1133,7 @@ function renderMove(advance = false) {
 
   moveCurrent = shuffle(friends)[0];
   moveAnswered = false;
-  $("#moveRound").textContent = `Move ${moveRound} · ${moveScore} correct`;
+  $("#moveRound").textContent = `Move ${moveRound} - ${moveScore} correct`;
   $("#moveClue").textContent = moveCurrent.move;
   $("#moveHint").textContent = "Whose signature move is this?";
   $("#moveFeedback").textContent = "Guess whose pose or move belongs to the clue.";
@@ -562,7 +1174,7 @@ function chooseMove(friend, button) {
     $("#moveFeedback").textContent = `That move belongs to ${titleName(moveCurrent.name)}.`;
   }
 
-  $("#moveRound").textContent = `Move ${moveRound} · ${moveScore} correct`;
+  $("#moveRound").textContent = `Move ${moveRound} - ${moveScore} correct`;
   document.querySelectorAll("#moveOptions button").forEach((option) => {
     option.disabled = true;
     if (option.querySelector("strong").textContent === moveCurrent.name) option.classList.add("correct");
@@ -801,40 +1413,75 @@ function renderAwards() {
   });
 }
 
+function activateView(viewId, updateHash = false) {
+  const tab = document.querySelector(`.tab[data-view="${viewId}"]`);
+  const view = document.getElementById(viewId);
+  if (!tab || !view) return;
+
+  document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
+  document.querySelectorAll(".view").forEach((item) => item.classList.remove("active"));
+  tab.classList.add("active");
+  view.classList.add("active");
+  if (viewId === "stage") spinSpotlight();
+  if (updateHash && window.history && window.location) {
+    window.history.replaceState(null, "", `#${viewId}`);
+  }
+}
+
 function wireTabs() {
   document.querySelectorAll(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
-      document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.view).classList.add("active");
-      if (tab.dataset.view === "stage") spinSpotlight();
-    });
+    tab.addEventListener("click", () => activateView(tab.dataset.view, true));
   });
 }
 
 $("#spinSpotlight").addEventListener("click", spinSpotlight);
 $("#confettiButton").addEventListener("click", burstConfetti);
+$("#startShow").addEventListener("click", startShow);
+$("#revealShow").addEventListener("click", revealShow);
+$("#nextShow").addEventListener("click", nextShowRound);
 $("#shuffleGallery").addEventListener("click", () => renderGallery(shuffle(friends)));
 $("#resetMatch").addEventListener("click", renderMatch);
+$("#newVotePrompt").addEventListener("click", () => renderVote(true));
+$("#revealVote").addEventListener("click", revealVoteWinner);
+$("#resetVote").addEventListener("click", resetVote);
+$("#nextWho").addEventListener("click", () => renderWho(true));
+$("#revealPhotoStep").addEventListener("click", revealPhotoStep);
+$("#solvePhoto").addEventListener("click", solvePhotoRoulette);
+$("#newPhotoRoulette").addEventListener("click", () => renderPhotoRoulette(true));
+$("#spinWheel").addEventListener("click", spinWheel);
+$("#newBracket").addEventListener("click", startBracket);
 $("#nextGuess").addEventListener("click", () => renderGuess(true));
 $("#nextMove").addEventListener("click", () => renderMove(true));
 $("#newSquad").addEventListener("click", () => renderSquad(true));
 $("#newBingo").addEventListener("click", () => renderBingo(true));
 $("#newVibe").addEventListener("click", () => renderVibes(true));
 $("#rerollAwards").addEventListener("click", renderAwards);
+$("#generateFinale").addEventListener("click", renderFinale);
+$("#printFinale").addEventListener("click", () => window.print());
 document.querySelectorAll(".mood-button").forEach((button) => {
   button.addEventListener("click", () => setMood(button.dataset.mood));
+});
+document.querySelectorAll(".language-button").forEach((button) => {
+  button.addEventListener("click", () => setLanguage(button.dataset.language));
 });
 
 wireTabs();
 setMood("sunset");
 renderStage();
+renderShow();
 renderGallery();
 renderMatch();
+renderVote();
+renderWho();
+renderPhotoRoulette();
+renderWheel();
+startBracket();
 renderGuess();
 renderMove();
 renderSquad();
 renderBingo();
 renderVibes();
 renderAwards();
+renderFinale();
+setLanguage("en");
+activateView(window.location && window.location.hash ? window.location.hash.slice(1) : "stage");
