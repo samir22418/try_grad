@@ -18,6 +18,10 @@
           <button class="tab active" type="button" data-view="stage">Stage</button>
           <button class="tab" type="button" data-view="gallery">Wall</button>
           <button class="tab" type="button" data-view="match">Match</button>
+          <button class="tab" type="button" data-view="guess">Guess</button>
+          <button class="tab" type="button" data-view="moves">Moves</button>
+          <button class="tab" type="button" data-view="squad">Squad</button>
+          <button class="tab" type="button" data-view="bingo">Bingo</button>
           <button class="tab" type="button" data-view="vibes">Vibes</button>
           <button class="tab" type="button" data-view="awards">Awards</button>
         </nav>
@@ -36,6 +40,14 @@
           <div>
             <span>Crew</span>
             <strong id="friendTotal">0</strong>
+          </div>
+          <div>
+            <span>Guess</span>
+            <strong id="guessScore">0</strong>
+          </div>
+          <div>
+            <span>Bingo</span>
+            <strong id="bingoScore">0</strong>
           </div>
         </section>
       </aside>
@@ -79,6 +91,70 @@
             <button class="icon-button" id="resetMatch" type="button" title="Reset match game">Reset</button>
           </div>
           <div class="match-board" id="matchBoard"></div>
+        </section>
+
+        <section class="view" id="guess">
+          <div class="toolbar">
+            <div>
+              <h2>Mystery Photo</h2>
+              <p class="game-status" id="guessFeedback">Pick the friend hiding behind the blur.</p>
+            </div>
+            <button class="icon-button" id="nextGuess" type="button" title="Next mystery photo">Next photo</button>
+          </div>
+          <div class="guess-layout">
+            <div class="guess-photo-wrap" id="guessPhotoWrap">
+              <img id="guessPhoto" alt="Mystery graduation photo">
+            </div>
+            <div class="guess-options" id="guessOptions"></div>
+          </div>
+        </section>
+
+        <section class="view" id="moves">
+          <div class="toolbar">
+            <div>
+              <h2>Signature Moves</h2>
+              <p class="game-status" id="moveFeedback">Guess whose pose or move belongs to the clue.</p>
+            </div>
+            <button class="icon-button" id="nextMove" type="button" title="New signature move">New clue</button>
+          </div>
+          <div class="moves-game">
+            <article class="clue-card">
+              <span id="moveRound">Move 1</span>
+              <strong id="moveClue"></strong>
+              <p id="moveHint"></p>
+            </article>
+            <div class="move-options" id="moveOptions"></div>
+          </div>
+        </section>
+
+        <section class="view" id="squad">
+          <div class="toolbar">
+            <div>
+              <h2>Squad Builder</h2>
+              <p class="game-status" id="squadFeedback">Choose three friends for the mission.</p>
+            </div>
+            <button class="icon-button" id="newSquad" type="button" title="New squad mission">New mission</button>
+          </div>
+          <div class="squad-layout">
+            <article class="mission-card">
+              <span id="squadRound">Mission 1</span>
+              <strong id="squadTitle"></strong>
+              <p id="squadBrief"></p>
+            </article>
+            <div class="squad-slots" id="squadSlots"></div>
+            <div class="squad-pool" id="squadPool"></div>
+          </div>
+        </section>
+
+        <section class="view" id="bingo">
+          <div class="toolbar">
+            <div>
+              <h2>Graduation Bingo</h2>
+              <p class="game-status" id="bingoStatus">Tap the moments that already happened.</p>
+            </div>
+            <button class="icon-button" id="newBingo" type="button" title="New bingo board">New board</button>
+          </div>
+          <div class="bingo-board" id="bingoBoard"></div>
         </section>
 
         <section class="view" id="vibes">

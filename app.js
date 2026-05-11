@@ -182,12 +182,86 @@ const vibeRounds = [
   },
 ];
 
+const squadMissions = [
+  {
+    title: "After-ceremony escape plan",
+    brief: "Pick the planner, the hype friend, and the person who somehow knows where everyone parked.",
+    roles: ["Planner", "Hype", "Navigator"],
+  },
+  {
+    title: "One perfect group photo",
+    brief: "Choose the photographer, the pose director, and the friend who makes everyone laugh at the right second.",
+    roles: ["Camera", "Director", "Laugh"],
+  },
+  {
+    title: "Food run before everybody vanishes",
+    brief: "Build the crew that can choose the place, collect the orders, and keep the mood alive.",
+    roles: ["Decision", "Orders", "Energy"],
+  },
+  {
+    title: "Last walk across campus",
+    brief: "Pick three friends for the slow-motion walk, the quote, and the final look back.",
+    roles: ["Walk", "Quote", "Finale"],
+  },
+  {
+    title: "Group-chat rescue mission",
+    brief: "Choose the friend with screenshots, the one with context, and the one brave enough to explain.",
+    roles: ["Receipts", "Context", "Closer"],
+  },
+];
+
+const bingoPrompts = [
+  "Someone asks for one more photo",
+  "A parent becomes the official photographer",
+  "Someone disappears for ten minutes",
+  "A cap or sash needs fixing",
+  "A friend says they are not emotional",
+  "Group chat gets flooded",
+  "Someone arrives late but smiling",
+  "A phone battery panic starts",
+  "Someone retakes the same selfie",
+  "A professor gets mentioned",
+  "Everyone argues about where to eat",
+  "Someone says this feels unreal",
+  "The best photo is accidental",
+  "A jacket gets borrowed",
+  "Someone gives a speech out of nowhere",
+  "The sun ruins one picture",
+  "Someone asks who has the tickets",
+  "A friend becomes ceremony manager",
+  "One photo has a blink in it",
+  "Someone says send me everything",
+  "A pose becomes an inside joke",
+  "Someone says we need a reel",
+  "A random old story returns",
+  "Someone forgets where they put something",
+  "A proud family moment happens",
+  "Someone starts rating outfits",
+  "A final goodbye takes too long",
+  "Someone says see you tomorrow anyway",
+  "A serious picture turns chaotic",
+  "Someone becomes the map reader",
+];
+
 let matchFirst = null;
 let matchedNames = new Set();
 let spotlightIndex = friends.findIndex((friend) => friend.name === "samir");
 let vibeRound = 1;
 let vibeCurrent = null;
 let vibePicks = [];
+let guessCurrent = null;
+let guessAnswered = false;
+let guessScore = 0;
+let moveCurrent = null;
+let moveAnswered = false;
+let moveScore = 0;
+let moveRound = 1;
+let squadCurrent = null;
+let squadRound = 1;
+let squadPicks = [];
+let bingoCells = [];
+let bingoChecked = new Set();
+let bingoLocked = false;
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -199,11 +273,24 @@ function shuffle(items) {
   return [...items].sort(() => Math.random() - 0.5);
 }
 
+function pickFriends(count, excludedNames = []) {
+  const excluded = new Set(excludedNames);
+  return shuffle(friends.filter((friend) => !excluded.has(friend.name))).slice(0, count);
+}
+
 function imageWithAvatarFallback(img, friend) {
   img.src = friend.avatar;
   img.onerror = () => {
     img.onerror = null;
     img.src = friend.photo;
+  };
+}
+
+function imageWithPhotoFallback(img, friend) {
+  img.src = friend.photo;
+  img.onerror = () => {
+    img.onerror = null;
+    img.src = friend.avatar;
   };
 }
 
@@ -379,6 +466,110 @@ function flipMatchCard(card) {
   }, 700);
 }
 
+function renderGuess(newPhoto = false) {
+  if (!guessCurrent || newPhoto) {
+    guessCurrent = shuffle(friends)[0];
+    guessAnswered = false;
+  }
+
+  const wrap = $("#guessPhotoWrap");
+  const img = $("#guessPhoto");
+  wrap.classList.remove("revealed");
+  img.alt = `${titleName(guessCurrent.name)} mystery photo`;
+  imageWithPhotoFallback(img, guessCurrent);
+  $("#guessFeedback").textContent = "Pick the friend hiding behind the blur.";
+  $("#guessScore").textContent = guessScore;
+
+  const options = shuffle([guessCurrent, ...pickFriends(3, [guessCurrent.name])]);
+  const optionGrid = $("#guessOptions");
+  optionGrid.innerHTML = "";
+
+  options.forEach((friend) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = friend.name;
+    button.addEventListener("click", () => chooseGuess(friend, button));
+    optionGrid.append(button);
+  });
+}
+
+function chooseGuess(friend, button) {
+  if (guessAnswered) return;
+
+  guessAnswered = true;
+  $("#guessPhotoWrap").classList.add("revealed");
+
+  const correct = friend.name === guessCurrent.name;
+  if (correct) {
+    guessScore += 1;
+    $("#guessFeedback").textContent = `${titleName(friend.name)} unlocked. Clean eye.`;
+    burstConfetti();
+  } else {
+    $("#guessFeedback").textContent = `Close, but that was ${titleName(guessCurrent.name)}.`;
+  }
+
+  $("#guessScore").textContent = guessScore;
+  document.querySelectorAll("#guessOptions button").forEach((option) => {
+    option.disabled = true;
+    if (option.textContent === guessCurrent.name) option.classList.add("correct");
+  });
+  button.classList.add(correct ? "correct" : "wrong");
+}
+
+function renderMove(advance = false) {
+  if (advance) moveRound += 1;
+
+  moveCurrent = shuffle(friends)[0];
+  moveAnswered = false;
+  $("#moveRound").textContent = `Move ${moveRound} · ${moveScore} correct`;
+  $("#moveClue").textContent = moveCurrent.move;
+  $("#moveHint").textContent = "Whose signature move is this?";
+  $("#moveFeedback").textContent = "Guess whose pose or move belongs to the clue.";
+
+  const options = shuffle([moveCurrent, ...pickFriends(3, [moveCurrent.name])]);
+  const optionGrid = $("#moveOptions");
+  optionGrid.innerHTML = "";
+
+  options.forEach((friend) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "move-option";
+
+    const img = document.createElement("img");
+    img.alt = titleName(friend.name);
+    imageWithAvatarFallback(img, friend);
+
+    const label = document.createElement("div");
+    label.innerHTML = `<strong>${friend.name}</strong><span>${friend.title}</span>`;
+
+    button.append(img, label);
+    button.addEventListener("click", () => chooseMove(friend, button));
+    optionGrid.append(button);
+  });
+}
+
+function chooseMove(friend, button) {
+  if (moveAnswered) return;
+
+  moveAnswered = true;
+  const correct = friend.name === moveCurrent.name;
+
+  if (correct) {
+    moveScore += 1;
+    $("#moveFeedback").textContent = `${titleName(friend.name)} owns that move.`;
+    burstConfetti();
+  } else {
+    $("#moveFeedback").textContent = `That move belongs to ${titleName(moveCurrent.name)}.`;
+  }
+
+  $("#moveRound").textContent = `Move ${moveRound} · ${moveScore} correct`;
+  document.querySelectorAll("#moveOptions button").forEach((option) => {
+    option.disabled = true;
+    if (option.querySelector("strong").textContent === moveCurrent.name) option.classList.add("correct");
+  });
+  button.classList.add(correct ? "correct" : "wrong");
+}
+
 function renderVibes(newRound = false) {
   if (!vibeCurrent || newRound) {
     vibeCurrent = shuffle(vibeRounds)[0];
@@ -456,6 +647,146 @@ function chooseVibeFriend(friend) {
   renderVibePool();
 }
 
+function renderSquad(newMission = false) {
+  if (!squadCurrent || newMission) {
+    squadCurrent = shuffle(squadMissions)[0];
+    squadPicks = [];
+    if (newMission) squadRound += 1;
+  }
+
+  $("#squadRound").textContent = `Mission ${squadRound}`;
+  $("#squadTitle").textContent = squadCurrent.title;
+  $("#squadBrief").textContent = squadCurrent.brief;
+  $("#squadFeedback").textContent = "Choose three friends for the mission.";
+  renderSquadSlots();
+  renderSquadPool();
+}
+
+function renderSquadSlots() {
+  const slots = $("#squadSlots");
+  slots.innerHTML = "";
+
+  squadCurrent.roles.forEach((role, index) => {
+    const friend = squadPicks[index];
+    const slot = document.createElement("article");
+    slot.className = `squad-slot ${friend ? "filled" : ""}`;
+
+    if (friend) {
+      const img = document.createElement("img");
+      img.alt = titleName(friend.name);
+      imageWithAvatarFallback(img, friend);
+      slot.innerHTML = `<span>${role}</span><strong>${friend.name}</strong>`;
+      slot.append(img);
+    } else {
+      slot.innerHTML = `<span>${role}</span><strong>Open spot</strong>`;
+    }
+
+    slots.append(slot);
+  });
+}
+
+function renderSquadPool() {
+  const pool = $("#squadPool");
+  pool.innerHTML = "";
+
+  friends.forEach((friend) => {
+    const selected = squadPicks.some((pick) => pick.name === friend.name);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `squad-option ${selected ? "selected" : ""}`;
+    button.disabled = selected || squadPicks.length >= 3;
+
+    const img = document.createElement("img");
+    img.alt = titleName(friend.name);
+    imageWithAvatarFallback(img, friend);
+
+    const label = document.createElement("div");
+    label.innerHTML = `<strong>${friend.name}</strong><span>${friend.move}</span>`;
+
+    button.append(img, label);
+    button.addEventListener("click", () => chooseSquadFriend(friend));
+    pool.append(button);
+  });
+}
+
+function chooseSquadFriend(friend) {
+  if (squadPicks.length >= 3) return;
+  squadPicks.push(friend);
+
+  if (squadPicks.length === 3) {
+    const names = squadPicks.map((pick) => titleName(pick.name)).join(", ");
+    $("#squadFeedback").textContent = `${names}: mission locked.`;
+    burstConfetti();
+  }
+
+  renderSquadSlots();
+  renderSquadPool();
+}
+
+function renderBingo(newBoard = false) {
+  if (!bingoCells.length || newBoard) {
+    const prompts = shuffle(bingoPrompts).slice(0, 24);
+    prompts.splice(12, 0, "Free: one group photo");
+    bingoCells = prompts;
+    bingoChecked = new Set([12]);
+    bingoLocked = false;
+  }
+
+  renderBingoCells();
+}
+
+function renderBingoCells() {
+  const board = $("#bingoBoard");
+  board.innerHTML = "";
+
+  bingoCells.forEach((prompt, index) => {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = `bingo-cell ${bingoChecked.has(index) ? "checked" : ""}`;
+    cell.textContent = prompt;
+    cell.addEventListener("click", () => toggleBingoCell(index));
+    board.append(cell);
+  });
+
+  const lines = countBingoLines();
+  $("#bingoScore").textContent = lines;
+  if (!lines) {
+    $("#bingoStatus").textContent = "Tap the moments that already happened.";
+  }
+}
+
+function toggleBingoCell(index) {
+  if (index === 12) return;
+
+  if (bingoChecked.has(index)) {
+    bingoChecked.delete(index);
+  } else {
+    bingoChecked.add(index);
+  }
+
+  renderBingoCells();
+
+  const lines = countBingoLines();
+  if (lines > 0) {
+    $("#bingoStatus").textContent = `${lines} bingo line${lines > 1 ? "s" : ""} locked.`;
+    if (!bingoLocked) {
+      bingoLocked = true;
+      burstConfetti();
+    }
+  }
+}
+
+function countBingoLines() {
+  const rows = [0, 5, 10, 15, 20].map((start) => [start, start + 1, start + 2, start + 3, start + 4]);
+  const columns = [0, 1, 2, 3, 4].map((start) => [start, start + 5, start + 10, start + 15, start + 20]);
+  const diagonals = [
+    [0, 6, 12, 18, 24],
+    [4, 8, 12, 16, 20],
+  ];
+
+  return [...rows, ...columns, ...diagonals].filter((line) => line.every((index) => bingoChecked.has(index))).length;
+}
+
 function renderAwards() {
   const grid = $("#awardGrid");
   grid.innerHTML = "";
@@ -486,6 +817,10 @@ $("#spinSpotlight").addEventListener("click", spinSpotlight);
 $("#confettiButton").addEventListener("click", burstConfetti);
 $("#shuffleGallery").addEventListener("click", () => renderGallery(shuffle(friends)));
 $("#resetMatch").addEventListener("click", renderMatch);
+$("#nextGuess").addEventListener("click", () => renderGuess(true));
+$("#nextMove").addEventListener("click", () => renderMove(true));
+$("#newSquad").addEventListener("click", () => renderSquad(true));
+$("#newBingo").addEventListener("click", () => renderBingo(true));
 $("#newVibe").addEventListener("click", () => renderVibes(true));
 $("#rerollAwards").addEventListener("click", renderAwards);
 document.querySelectorAll(".mood-button").forEach((button) => {
@@ -497,5 +832,9 @@ setMood("sunset");
 renderStage();
 renderGallery();
 renderMatch();
+renderGuess();
+renderMove();
+renderSquad();
+renderBingo();
 renderVibes();
 renderAwards();

@@ -64,6 +64,15 @@ button {
   font: inherit;
 }
 
+button:disabled {
+  cursor: default;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -178,7 +187,7 @@ h2 {
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--panel);
 }
 
 .score-panel span {
@@ -205,6 +214,13 @@ h2 {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
+}
+
+.game-status {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
 .icon-button {
@@ -721,7 +737,7 @@ body[data-mood="midnight"] .friend-card.featured-friend {
   min-height: 430px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--panel);
   box-shadow: var(--shadow);
   overflow: hidden;
 }
@@ -766,10 +782,17 @@ body[data-mood="midnight"] .friend-card.featured-friend {
   min-height: 88px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--panel);
   cursor: pointer;
   font-weight: 850;
   text-transform: capitalize;
+  color: var(--ink);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.guess-options button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--gold);
 }
 
 .guess-options button.correct {
@@ -1006,6 +1029,11 @@ body[data-mood="midnight"] .mission-card {
   cursor: pointer;
 }
 
+.move-option:disabled,
+.squad-option:disabled {
+  cursor: default;
+}
+
 .move-option {
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
@@ -1029,10 +1057,24 @@ body[data-mood="midnight"] .mission-card {
   text-transform: capitalize;
 }
 
+.move-option span,
+.squad-option span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
 .move-option.correct {
   color: #fff;
   border-color: var(--green);
   background: var(--green);
+}
+
+.move-option.correct span,
+.move-option.wrong span {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .move-option.wrong {
@@ -1149,6 +1191,15 @@ body[data-mood="midnight"] .mission-card {
   text-align: center;
   color: var(--ink);
   cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 780;
+  line-height: 1.28;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.bingo-cell:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
 }
 
 .bingo-cell.checked {
@@ -1219,7 +1270,6 @@ body[data-mood="midnight"] .mission-card {
   }
 
   .guess-options,
-  .bingo-board,
   .memory-reel,
   .vibe-picks,
   .trio-hero,
@@ -1231,6 +1281,18 @@ body[data-mood="midnight"] .mission-card {
 
   .vibe-pool {
     grid-template-columns: 1fr;
+  }
+
+  .bingo-board {
+    grid-template-columns: repeat(5, minmax(92px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .bingo-cell {
+    min-height: 96px;
+    padding: 10px;
+    font-size: 0.72rem;
   }
 
   .trio-hero,
@@ -1255,5 +1317,35 @@ body[data-mood="midnight"] .mission-card {
 
   .vibe-card strong {
     font-size: 2.1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .sidebar {
+    padding: 20px;
+  }
+
+  .tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .icon-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
