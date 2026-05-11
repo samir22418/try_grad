@@ -1,4 +1,9 @@
 const friendDetails = {
+  amgad: {
+    title: "Mirror sharp",
+    note: "Clean fit, phone pose, and the kind of calm that looks intentional.",
+    move: "The pocket mirror shot",
+  },
   ali: {
     title: "Velvet confidence",
     note: "Walks in calm, leaves the frame looking expensive.",
@@ -34,6 +39,11 @@ const friendDetails = {
     note: "Low volume, high presence, impossible to ignore.",
     move: "The hands-in-pocket stare",
   },
+  karim: {
+    title: "Night formal",
+    note: "Glasses, suit, bright smile, and ceremony energy after dark.",
+    move: "The suit smile",
+  },
   kemo: {
     title: "Clean classic",
     note: "White shirt, calm smile, and a photo that already feels framed.",
@@ -67,6 +77,7 @@ const friendDetails = {
 };
 
 const friends = [
+  "amgad",
   "ali",
   "bassit",
   "gemy",
@@ -74,6 +85,7 @@ const friends = [
   "hamed",
   "honda",
   "jo",
+  "karim",
   "kemo",
   "omar",
   "samir",
@@ -190,6 +202,7 @@ let moveRound = 1;
 let moveCurrent = null;
 let squadMission = null;
 let squadPicks = [];
+let matchMoves = 0;
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -354,6 +367,7 @@ function renderMatch() {
   board.innerHTML = "";
   matchFirst = null;
   matchedNames = new Set();
+  matchMoves = 0;
   $("#matchScore").textContent = `0 / ${friends.length}`;
 
   const cards = friends.flatMap((friend) => [
@@ -364,7 +378,7 @@ function renderMatch() {
   shuffle(cards).forEach((cardData) => {
     const card = document.createElement("button");
     card.type = "button";
-    card.className = `match-card hidden-card ${cardData.type === "name" ? "name-card" : ""}`;
+    card.className = `match-card hidden-card ${cardData.type === "photo" ? "photo-card" : "name-card"}`;
     card.dataset.name = cardData.friend.name;
     card.dataset.type = cardData.type;
 
@@ -394,6 +408,7 @@ function flipMatchCard(card) {
   const isMatch =
     matchFirst.dataset.name === card.dataset.name &&
     matchFirst.dataset.type !== card.dataset.type;
+  matchMoves += 1;
 
   if (isMatch) {
     matchFirst.classList.add("matched");
