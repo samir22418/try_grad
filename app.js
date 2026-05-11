@@ -60,7 +60,7 @@ const friendDetails = {
     move: "The sunlight selfie",
   },
   samir: {
-    title: "The headline",
+    title: "Warm spark",
     note: "The thumbs-up proof that the whole university arc paid off.",
     move: "The victory pose",
   },
@@ -152,13 +152,13 @@ const stageLines = [
 const reelItems = [
   ["Opening scene", "Everyone arrives pretending they are not emotional."],
   ["Photo mode", "One picture becomes twenty because somebody blinked."],
-  ["Samir spotlight", "The headline energy stays right in the middle."],
+  ["Samir moment", "A warm friend energy that keeps the memory smiling."],
   ["After credits", "Food, stories, promises, and one last selfie."],
 ];
 
 const vibeRounds = [
   {
-    title: "Build the final photo crew",
+    title: "Build the final photo vibe",
     brief: "Pick three friends who can turn the last picture into the one everyone reposts.",
   },
   {
@@ -440,7 +440,7 @@ function chooseVibeFriend(friend) {
 
   if (vibePicks.length === 3) {
     const names = vibePicks.map((pick) => titleName(pick.name)).join(", ");
-    $("#vibeBrief").textContent = `${names}: vibe locked. This crew owns the moment.`;
+    $("#vibeBrief").textContent = `${names}: vibe locked. This friendship moment is ready.`;
     burstConfetti();
   }
 
