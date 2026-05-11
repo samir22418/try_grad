@@ -1,4 +1,9 @@
 const friendDetails = {
+  "3bbas": {
+    title: "Garden night",
+    note: "Quiet night-shot energy with a clean black jacket and calm presence.",
+    move: "The night garden stance",
+  },
   amgad: {
     title: "Mirror sharp",
     note: "Clean fit, phone pose, and the kind of calm that looks intentional.",
@@ -55,7 +60,7 @@ const friendDetails = {
     move: "The sunlight selfie",
   },
   samir: {
-    title: "Mastered it",
+    title: "The headline",
     note: "The thumbs-up proof that the whole university arc paid off.",
     move: "The victory pose",
   },
@@ -69,14 +74,25 @@ const friendDetails = {
     note: "Shows up casually and somehow the photo gets better.",
     move: "The phone-in-hand walk",
   },
+  shreef: {
+    title: "Beard frame",
+    note: "A strong close-up look turned into a full-body sticker with edge.",
+    move: "The serious selfie stare",
+  },
+  zaid: {
+    title: "AI campus smile",
+    note: "Bright smile, simple fit, and campus-day energy.",
+    move: "The AI sign smile",
+  },
   zaki: {
     title: "Bright finish",
-    note: "All smile, clean fit, and future plans loading.",
-    move: "The one-hand pocket",
+    note: "The new burgundy avatar brings the clean final-frame energy.",
+    move: "The burgundy pocket pose",
   },
 };
 
-const friends = [
+const friendNames = [
+  "3bbas",
   "amgad",
   "ali",
   "bassit",
@@ -91,16 +107,19 @@ const friends = [
   "samir",
   "samy",
   "shbeeb",
+  "shreef",
+  "zaid",
   "zaki",
-].map((name) => ({
+];
+
+const friends = friendNames.map((name) => ({
   name,
   photo: `assets/photos/${name}.jpeg`,
   avatar: `assets/avatars/${name}.png`,
   ...friendDetails[name],
 }));
 
-const featuredNames = ["zaki", "omar", "shbeeb"];
-const featuredFriends = friends.filter((friend) => featuredNames.includes(friend.name));
+const featuredNames = ["samir", "zaki", "shreef", "zaid"];
 
 const awards = [
   "Main character energy",
@@ -116,93 +135,52 @@ const awards = [
   "Best comeback lines",
   "The calm one under pressure",
   "Most likely to make this day legendary",
+  "Final-photo specialist",
+  "Best fit check",
+  "Most likely to start the chant",
+  "Group-chat historian",
+  "Ceremony scene stealer",
 ];
 
 const stageLines = [
   "The official cast of the day we stopped saying someday and started saying remember when.",
   "Same friends, new chapter, better avatars.",
-  "A graduation album that came with mini games, inside jokes, and main-character lighting.",
-  "Thirteen names, one group chat, unlimited stories.",
+  "A graduation album with games, inside jokes, and main-character lighting.",
+  "One group chat, unlimited stories.",
 ];
 
 const reelItems = [
   ["Opening scene", "Everyone arrives pretending they are not emotional."],
   ["Photo mode", "One picture becomes twenty because somebody blinked."],
-  ["Main memory", "The group finally stands together and the day feels real."],
+  ["Samir spotlight", "The headline energy stays right in the middle."],
   ["After credits", "Food, stories, promises, and one last selfie."],
 ];
 
-const trioScenes = [
+const vibeRounds = [
   {
-    label: "Poster scene",
-    text: "Zaki brings the bright finish, Omar brings the cinematic calm, and Shbeeb brings the street-smile ending shot.",
+    title: "Build the final photo crew",
+    brief: "Pick three friends who can turn the last picture into the one everyone reposts.",
   },
   {
-    label: "Graduation arc",
-    text: "Omar sets the mood, Shbeeb keeps it moving, Zaki lands the final frame.",
+    title: "Save the after-party mood",
+    brief: "Pick three friends who can keep the energy alive after the ceremony ends.",
   },
   {
-    label: "Memory trailer",
-    text: "Three different energies, one tiny movie: soft rebel, street smile, bright finish.",
-  },
-];
-
-const squadMissions = [
-  {
-    title: "Make the group photo legendary",
-    brief: "Draft a director, a hype person, and a closer. The app will turn the picks into a mini graduation crew.",
-    slots: ["Director", "Hype", "Closer"],
+    title: "Make the campus walk iconic",
+    brief: "Pick three friends for the slow walk, the laugh, and the final pose.",
   },
   {
-    title: "Save the after-party plan",
-    brief: "Choose who negotiates, who gathers everyone, and who gets the final selfie before people disappear.",
-    slots: ["Negotiator", "Caller", "Selfie"],
+    title: "Turn the group chat into a movie",
+    brief: "Pick three friends to carry the intro, plot twist, and final scene.",
   },
-  {
-    title: "Build the memory trailer",
-    brief: "Pick the opening shot, the plot twist, and the final scene for the day.",
-    slots: ["Opening", "Twist", "Finale"],
-  },
-];
-
-const bingoItems = [
-  "Took a group selfie",
-  "Said we finally did it",
-  "Borrowed a charger",
-  "Someone fixed the pose",
-  "Parent photo session",
-  "Forgot where we parked",
-  "Asked for one more picture",
-  "Made a professor laugh",
-  "Talked about old exams",
-  "Promised to meet soon",
-  "Someone disappeared",
-  "Free space",
-  "Shared a memory",
-  "Posted a story",
-  "Fixed the gown",
-  "Sang too loudly",
-  "Made a fake serious face",
-  "Found an old friend",
-  "Talked about future plans",
-  "Ate after photos",
-  "Someone said don't cry",
-  "Took a blurry photo",
-  "Made an inside joke",
-  "Called the whole group",
-  "One perfect picture",
 ];
 
 let matchFirst = null;
 let matchedNames = new Set();
-let guessCurrent = null;
-let guessStreak = 0;
-let spotlightIndex = 0;
-let moveRound = 1;
-let moveCurrent = null;
-let squadMission = null;
-let squadPicks = [];
-let matchMoves = 0;
+let spotlightIndex = friends.findIndex((friend) => friend.name === "samir");
+let vibeRound = 1;
+let vibeCurrent = null;
+let vibePicks = [];
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -222,11 +200,25 @@ function imageWithAvatarFallback(img, friend) {
   };
 }
 
-function renderStage() {
-  $("#stageLine").textContent = shuffle(stageLines)[0];
-  renderLineup();
-  renderMemoryReel();
-  setSpotlight(friends[spotlightIndex]);
+function burstConfetti() {
+  const colors = ["#156f64", "#de6d55", "#c49a38", "#315f9b", "#11131b"];
+
+  Array.from({ length: 48 }).forEach((_, index) => {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}vw`;
+    piece.style.animationDelay = `${Math.random() * 0.38}s`;
+    piece.style.background = colors[index % colors.length];
+    document.body.append(piece);
+    window.setTimeout(() => piece.remove(), 2300);
+  });
+}
+
+function setMood(mood) {
+  document.body.dataset.mood = mood;
+  document.querySelectorAll(".mood-button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.mood === mood);
+  });
 }
 
 function setSpotlight(friend) {
@@ -242,6 +234,14 @@ function spinSpotlight() {
   setSpotlight(friends[spotlightIndex]);
 }
 
+function renderStage() {
+  $("#stageLine").textContent = shuffle(stageLines)[0];
+  $("#friendTotal").textContent = friends.length;
+  renderLineup();
+  renderMemoryReel();
+  setSpotlight(friends[spotlightIndex]);
+}
+
 function renderLineup() {
   const lineup = $("#lineupStage");
   lineup.innerHTML = "";
@@ -249,7 +249,7 @@ function renderLineup() {
   friends.forEach((friend) => {
     const item = document.createElement("button");
     item.type = "button";
-    item.className = "lineup-avatar";
+    item.className = `lineup-avatar ${friend.name === "samir" ? "samir-lineup" : ""}`;
     item.title = titleName(friend.name);
 
     const img = document.createElement("img");
@@ -277,69 +277,15 @@ function renderMemoryReel() {
   });
 }
 
-function renderTrio() {
-  const hero = $("#trioHero");
-  hero.innerHTML = "";
-
-  featuredFriends.forEach((friend) => {
-    const card = document.createElement("article");
-    card.className = `trio-card trio-${friend.name}`;
-
-    const copy = document.createElement("div");
-    copy.className = "trio-copy";
-    copy.innerHTML = `<span>${friend.title}</span><strong>${friend.name}</strong><p>${friend.note}</p>`;
-
-    const img = document.createElement("img");
-    img.alt = `${titleName(friend.name)} redesigned avatar`;
-    imageWithAvatarFallback(img, friend);
-
-    card.append(copy, img);
-    hero.append(card);
-  });
-
-  renderTrioScenes();
-}
-
-function renderTrioScenes() {
-  const strip = $("#trioStrip");
-  strip.innerHTML = "";
-
-  shuffle(trioScenes).forEach((scene) => {
-    const card = document.createElement("article");
-    card.className = "trio-scene";
-    card.innerHTML = `<span>${scene.label}</span><strong>${scene.text}</strong>`;
-    strip.append(card);
-  });
-}
-
-function burstConfetti() {
-  const colors = ["#156f64", "#de6d55", "#c49a38", "#315f9b", "#6c4bb8"];
-
-  Array.from({ length: 48 }).forEach((_, index) => {
-    const piece = document.createElement("span");
-    piece.className = "confetti-piece";
-    piece.style.left = `${Math.random() * 100}vw`;
-    piece.style.animationDelay = `${Math.random() * 0.38}s`;
-    piece.style.background = colors[index % colors.length];
-    document.body.append(piece);
-    window.setTimeout(() => piece.remove(), 2300);
-  });
-}
-
-function setMood(mood) {
-  document.body.dataset.mood = mood;
-  document.querySelectorAll(".mood-button").forEach((button) => {
-    button.classList.toggle("active", button.dataset.mood === mood);
-  });
-}
-
 function renderGallery(list = friends) {
   const grid = $("#friendGrid");
   grid.innerHTML = "";
 
   list.forEach((friend) => {
     const card = document.createElement("article");
-    card.className = `friend-card ${featuredNames.includes(friend.name) ? "featured-friend" : ""}`;
+    card.className = `friend-card ${featuredNames.includes(friend.name) ? "featured-friend" : ""} ${
+      friend.name === "samir" ? "samir-feature" : ""
+    }`;
 
     const badge = document.createElement("span");
     badge.className = "friend-badge";
@@ -367,7 +313,6 @@ function renderMatch() {
   board.innerHTML = "";
   matchFirst = null;
   matchedNames = new Set();
-  matchMoves = 0;
   $("#matchScore").textContent = `0 / ${friends.length}`;
 
   const cards = friends.flatMap((friend) => [
@@ -408,7 +353,6 @@ function flipMatchCard(card) {
   const isMatch =
     matchFirst.dataset.name === card.dataset.name &&
     matchFirst.dataset.type !== card.dataset.type;
-  matchMoves += 1;
 
   if (isMatch) {
     matchFirst.classList.add("matched");
@@ -428,145 +372,54 @@ function flipMatchCard(card) {
   }, 700);
 }
 
-function renderGuess() {
-  guessCurrent = shuffle(friends)[0];
-  $(".guess-photo-wrap").classList.remove("revealed");
-
-  const photo = $("#guessPhoto");
-  photo.alt = "Blurred graduation friend";
-  photo.src = guessCurrent.photo;
-
-  const options = shuffle([
-    guessCurrent,
-    ...shuffle(friends.filter((friend) => friend.name !== guessCurrent.name)).slice(0, 3),
-  ]);
-
-  const optionsWrap = $("#guessOptions");
-  optionsWrap.innerHTML = "";
-
-  options.forEach((friend) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = friend.name;
-    button.addEventListener("click", () => chooseGuess(button, friend.name));
-    optionsWrap.append(button);
-  });
-}
-
-function chooseGuess(button, name) {
-  const buttons = [...$("#guessOptions").querySelectorAll("button")];
-  buttons.forEach((item) => {
-    item.disabled = true;
-    if (item.textContent === guessCurrent.name) item.classList.add("correct");
-  });
-
-  $(".guess-photo-wrap").classList.add("revealed");
-
-  if (name === guessCurrent.name) {
-    guessStreak += 1;
-    if (guessStreak > 0 && guessStreak % 3 === 0) burstConfetti();
-  } else {
-    button.classList.add("wrong");
-    guessStreak = 0;
+function renderVibes(newRound = false) {
+  if (!vibeCurrent || newRound) {
+    vibeCurrent = shuffle(vibeRounds)[0];
+    vibePicks = [];
+    if (newRound) vibeRound += 1;
   }
 
-  $("#guessScore").textContent = guessStreak;
+  $("#vibeRound").textContent = `Round ${vibeRound}`;
+  $("#vibeTitle").textContent = vibeCurrent.title;
+  $("#vibeBrief").textContent = vibeCurrent.brief;
+  $("#vibeMeter").style.width = `${(vibePicks.length / 3) * 100}%`;
+  renderVibePicks();
+  renderVibePool();
 }
 
-function renderMoves() {
-  moveCurrent = shuffle(friends)[0];
-  $("#moveRound").textContent = `Round ${moveRound}`;
-  $("#moveClue").textContent = moveCurrent.move;
-  $("#moveFeedback").textContent = "Pick the friend who owns this signature move.";
+function renderVibePicks() {
+  const picks = $("#vibePicks");
+  picks.innerHTML = "";
 
-  const options = shuffle([
-    moveCurrent,
-    ...shuffle(friends.filter((friend) => friend.name !== moveCurrent.name)).slice(0, 5),
-  ]);
-
-  const optionsWrap = $("#moveOptions");
-  optionsWrap.innerHTML = "";
-
-  options.forEach((friend) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "move-option";
-    button.dataset.name = friend.name;
-
-    const img = document.createElement("img");
-    img.alt = titleName(friend.name);
-    imageWithAvatarFallback(img, friend);
-
-    const label = document.createElement("strong");
-    label.textContent = friend.name;
-
-    button.append(img, label);
-    button.addEventListener("click", () => chooseMove(button, friend.name));
-    optionsWrap.append(button);
-  });
-}
-
-function chooseMove(button, name) {
-  const buttons = [...$("#moveOptions").querySelectorAll("button")];
-  buttons.forEach((item) => {
-    item.disabled = true;
-    item.classList.toggle("correct", item.dataset.name === moveCurrent.name);
-  });
-
-  if (name === moveCurrent.name) {
-    $("#moveFeedback").textContent = `${titleName(moveCurrent.name)} owns it. Clean guess.`;
-    burstConfetti();
-  } else {
-    button.classList.add("wrong");
-    $("#moveFeedback").textContent = `Almost. That move belongs to ${titleName(moveCurrent.name)}.`;
-  }
-}
-
-function renderSquad(newMission = false) {
-  if (!squadMission || newMission) {
-    squadMission = shuffle(squadMissions)[0];
-    squadPicks = [];
-  }
-
-  $("#missionTitle").textContent = squadMission.title;
-  $("#missionBrief").textContent = squadMission.brief;
-  renderSquadSlots();
-  renderSquadPool();
-}
-
-function renderSquadSlots() {
-  const slots = $("#squadSlots");
-  slots.innerHTML = "";
-
-  squadMission.slots.forEach((slot, index) => {
-    const pick = squadPicks[index];
+  Array.from({ length: 3 }).forEach((_, index) => {
+    const friend = vibePicks[index];
     const card = document.createElement("article");
-    card.className = `squad-slot ${pick ? "filled" : ""}`;
+    card.className = `vibe-pick ${friend ? "filled" : ""}`;
 
-    if (pick) {
+    if (friend) {
       const img = document.createElement("img");
-      img.alt = titleName(pick.name);
-      imageWithAvatarFallback(img, pick);
-      card.innerHTML = `<span>${slot}</span><strong>${pick.name}</strong>`;
+      img.alt = titleName(friend.name);
+      imageWithAvatarFallback(img, friend);
+      card.innerHTML = `<span>Pick ${index + 1}</span><strong>${friend.name}</strong>`;
       card.append(img);
     } else {
-      card.innerHTML = `<span>${slot}</span><strong>Choose friend</strong>`;
+      card.innerHTML = `<span>Pick ${index + 1}</span><strong>Choose vibe</strong>`;
     }
 
-    slots.append(card);
+    picks.append(card);
   });
 }
 
-function renderSquadPool() {
-  const pool = $("#squadPool");
+function renderVibePool() {
+  const pool = $("#vibePool");
   pool.innerHTML = "";
 
   friends.forEach((friend) => {
-    const selected = squadPicks.some((pick) => pick.name === friend.name);
+    const selected = vibePicks.some((pick) => pick.name === friend.name);
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `squad-option ${selected ? "selected" : ""}`;
-    button.disabled = selected || squadPicks.length >= squadMission.slots.length;
+    button.className = `vibe-option ${selected ? "selected" : ""} ${friend.name === "samir" ? "samir-option" : ""}`;
+    button.disabled = selected || vibePicks.length >= 3;
 
     const img = document.createElement("img");
     img.alt = titleName(friend.name);
@@ -576,22 +429,24 @@ function renderSquadPool() {
     label.innerHTML = `<strong>${friend.name}</strong><span>${friend.title}</span>`;
 
     button.append(img, label);
-    button.addEventListener("click", () => chooseSquadFriend(friend));
+    button.addEventListener("click", () => chooseVibeFriend(friend));
     pool.append(button);
   });
 }
 
-function chooseSquadFriend(friend) {
-  if (squadPicks.length >= squadMission.slots.length) return;
-  squadPicks.push(friend);
-  renderSquadSlots();
-  renderSquadPool();
+function chooseVibeFriend(friend) {
+  if (vibePicks.length >= 3) return;
+  vibePicks.push(friend);
 
-  if (squadPicks.length === squadMission.slots.length) {
-    const names = squadPicks.map((pick) => titleName(pick.name)).join(", ");
-    $("#missionBrief").textContent = `${names}: mission crew locked. This is a poster waiting to happen.`;
+  if (vibePicks.length === 3) {
+    const names = vibePicks.map((pick) => titleName(pick.name)).join(", ");
+    $("#vibeBrief").textContent = `${names}: vibe locked. This crew owns the moment.`;
     burstConfetti();
   }
+
+  $("#vibeMeter").style.width = `${(vibePicks.length / 3) * 100}%`;
+  renderVibePicks();
+  renderVibePool();
 }
 
 function renderAwards() {
@@ -599,26 +454,12 @@ function renderAwards() {
   grid.innerHTML = "";
   const shuffledFriends = shuffle(friends);
 
-  shuffle(awards).slice(0, friends.length).forEach((award, index) => {
+  awards.slice(0, friends.length).forEach((award, index) => {
     const friend = shuffledFriends[index];
     const card = document.createElement("article");
-    card.className = "award-card";
+    card.className = `award-card ${friend.name === "samir" ? "samir-award" : ""}`;
     card.innerHTML = `<span>${award}</span><strong>${friend.name}</strong><p>${friend.note}</p>`;
     grid.append(card);
-  });
-}
-
-function renderBingo() {
-  const board = $("#bingoBoard");
-  board.innerHTML = "";
-
-  bingoItems.forEach((item) => {
-    const cell = document.createElement("button");
-    cell.type = "button";
-    cell.className = "bingo-cell";
-    cell.textContent = item;
-    cell.addEventListener("click", () => cell.classList.toggle("checked"));
-    board.append(cell);
   });
 }
 
@@ -636,21 +477,10 @@ function wireTabs() {
 
 $("#spinSpotlight").addEventListener("click", spinSpotlight);
 $("#confettiButton").addEventListener("click", burstConfetti);
-$("#trioSceneButton").addEventListener("click", renderTrioScenes);
 $("#shuffleGallery").addEventListener("click", () => renderGallery(shuffle(friends)));
 $("#resetMatch").addEventListener("click", renderMatch);
-$("#nextGuess").addEventListener("click", renderGuess);
-$("#nextMove").addEventListener("click", () => {
-  moveRound += 1;
-  renderMoves();
-});
-$("#newMission").addEventListener("click", () => renderSquad(true));
-$("#resetSquad").addEventListener("click", () => {
-  squadPicks = [];
-  renderSquad(false);
-});
+$("#newVibe").addEventListener("click", () => renderVibes(true));
 $("#rerollAwards").addEventListener("click", renderAwards);
-$("#resetBingo").addEventListener("click", renderBingo);
 document.querySelectorAll(".mood-button").forEach((button) => {
   button.addEventListener("click", () => setMood(button.dataset.mood));
 });
@@ -658,11 +488,7 @@ document.querySelectorAll(".mood-button").forEach((button) => {
 wireTabs();
 setMood("sunset");
 renderStage();
-renderTrio();
 renderGallery();
 renderMatch();
-renderGuess();
-renderMoves();
-renderSquad(true);
+renderVibes();
 renderAwards();
-renderBingo();

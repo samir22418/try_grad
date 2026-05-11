@@ -369,6 +369,12 @@ body[data-mood="midnight"] .lineup-stage {
   background: linear-gradient(180deg, transparent, var(--mood-b));
 }
 
+.lineup-avatar.samir-lineup {
+  background:
+    radial-gradient(circle at center 40%, rgba(196, 154, 56, 0.28), transparent 58%),
+    linear-gradient(180deg, transparent, var(--mood-c));
+}
+
 .lineup-avatar img {
   width: 76px;
   height: 126px;
@@ -438,6 +444,18 @@ body[data-mood="midnight"] .lineup-stage {
   background:
     linear-gradient(150deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.48)),
     linear-gradient(135deg, var(--mood-c), var(--mood-b));
+}
+
+.friend-card.samir-feature {
+  border-color: rgba(196, 154, 56, 0.78);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5)),
+    linear-gradient(135deg, rgba(196, 154, 56, 0.28), rgba(222, 109, 85, 0.2));
+  box-shadow: 0 28px 70px rgba(196, 154, 56, 0.28);
+}
+
+.friend-card.samir-feature .friend-badge {
+  background: var(--gold);
 }
 
 body[data-mood="midnight"] .friend-card.featured-friend {
@@ -766,6 +784,157 @@ body[data-mood="midnight"] .friend-card.featured-friend {
   background: var(--coral);
 }
 
+.vibe-layout {
+  display: grid;
+  gap: 14px;
+}
+
+.vibe-card {
+  min-height: 250px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.34)),
+    linear-gradient(135deg, var(--mood-a), var(--mood-b));
+  box-shadow: var(--shadow);
+}
+
+body[data-mood="midnight"] .vibe-card {
+  background:
+    linear-gradient(135deg, rgba(25, 29, 41, 0.9), rgba(25, 29, 41, 0.48)),
+    linear-gradient(135deg, rgba(93, 197, 167, 0.12), rgba(120, 168, 239, 0.12));
+}
+
+.vibe-card span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--coral);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.vibe-card strong {
+  display: block;
+  max-width: 760px;
+  margin-bottom: 12px;
+  font-size: 3.2rem;
+  line-height: 0.98;
+}
+
+.vibe-card p {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.vibe-meter {
+  width: min(420px, 100%);
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.vibe-meter span {
+  display: block;
+  width: 0;
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--coral));
+  transition: width 220ms ease;
+}
+
+.vibe-picks,
+.vibe-pool {
+  display: grid;
+  gap: 12px;
+}
+
+.vibe-picks {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vibe-pool {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.vibe-pick,
+.vibe-option {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.vibe-pick {
+  min-height: 178px;
+  padding: 12px;
+}
+
+.vibe-pick span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.vibe-pick strong,
+.vibe-option strong {
+  display: block;
+  text-transform: capitalize;
+}
+
+.vibe-pick img {
+  display: block;
+  width: 100%;
+  height: 118px;
+  object-fit: contain;
+}
+
+.vibe-pick.filled {
+  background:
+    radial-gradient(circle at center 18%, rgba(255, 255, 255, 0.82), transparent 48%),
+    linear-gradient(180deg, var(--mood-a), transparent);
+}
+
+.vibe-option {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 100px;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.vibe-option img {
+  width: 58px;
+  height: 82px;
+  object-fit: contain;
+}
+
+.vibe-option span {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.vibe-option.selected {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.vibe-option.samir-option {
+  border-color: rgba(196, 154, 56, 0.76);
+  background:
+    linear-gradient(135deg, rgba(196, 154, 56, 0.14), transparent),
+    var(--panel);
+}
+
 .moves-game,
 .squad-layout {
   display: grid;
@@ -929,6 +1098,11 @@ body[data-mood="midnight"] .mission-card {
   overflow: hidden;
 }
 
+.award-card.samir-award {
+  border-color: rgba(196, 154, 56, 0.72);
+  box-shadow: 0 22px 58px rgba(196, 154, 56, 0.18);
+}
+
 .award-card::before {
   position: absolute;
   inset: auto -22px -42px auto;
@@ -1047,11 +1221,16 @@ body[data-mood="midnight"] .mission-card {
   .guess-options,
   .bingo-board,
   .memory-reel,
+  .vibe-picks,
   .trio-hero,
   .trio-strip,
   .squad-layout,
   .squad-slots {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vibe-pool {
+    grid-template-columns: 1fr;
   }
 
   .trio-hero,
@@ -1072,5 +1251,9 @@ body[data-mood="midnight"] .mission-card {
 
   .stage-copy h2 {
     font-size: 3rem;
+  }
+
+  .vibe-card strong {
+    font-size: 2.1rem;
   }
 }

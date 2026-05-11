@@ -17,13 +17,9 @@
         <nav class="tabs" aria-label="Views">
           <button class="tab active" type="button" data-view="stage">Stage</button>
           <button class="tab" type="button" data-view="gallery">Wall</button>
-          <button class="tab" type="button" data-view="trio">Trio</button>
           <button class="tab" type="button" data-view="match">Match</button>
-          <button class="tab" type="button" data-view="guess">Guess</button>
-          <button class="tab" type="button" data-view="moves">Moves</button>
-          <button class="tab" type="button" data-view="squad">Squad</button>
+          <button class="tab" type="button" data-view="vibes">Vibes</button>
           <button class="tab" type="button" data-view="awards">Awards</button>
-          <button class="tab" type="button" data-view="bingo">Bingo</button>
         </nav>
 
         <section class="mood-panel" aria-label="Vibe mode">
@@ -35,11 +31,11 @@
         <section class="score-panel" aria-label="Game score">
           <div>
             <span>Matches</span>
-            <strong id="matchScore">0 / 13</strong>
+            <strong id="matchScore">0</strong>
           </div>
           <div>
-            <span>Guess streak</span>
-            <strong id="guessScore">0</strong>
+            <span>Crew</span>
+            <strong id="friendTotal">0</strong>
           </div>
         </section>
       </aside>
@@ -49,7 +45,7 @@
           <div class="stage-scene">
             <div class="stage-copy">
               <p class="eyebrow">Class crew</p>
-              <h2>One day, thirteen stories</h2>
+              <h2>One day, one crew</h2>
               <p class="stage-line" id="stageLine"></p>
               <div class="stage-actions">
                 <button class="icon-button dark" id="spinSpotlight" type="button">Spotlight</button>
@@ -77,15 +73,6 @@
           <div class="friend-grid" id="friendGrid"></div>
         </section>
 
-        <section class="view" id="trio">
-          <div class="toolbar">
-            <h2>Zaki, Omar & Shbeeb</h2>
-            <button class="icon-button" id="trioSceneButton" type="button" title="Change trio scene">Scene</button>
-          </div>
-          <div class="trio-hero" id="trioHero"></div>
-          <div class="trio-strip" id="trioStrip"></div>
-        </section>
-
         <section class="view" id="match">
           <div class="toolbar">
             <h2>Memory Match</h2>
@@ -94,48 +81,20 @@
           <div class="match-board" id="matchBoard"></div>
         </section>
 
-        <section class="view" id="guess">
+        <section class="view" id="vibes">
           <div class="toolbar">
-            <h2>Guess The Friend</h2>
-            <button class="icon-button" id="nextGuess" type="button" title="Next friend">Next</button>
+            <h2>Vibe Check</h2>
+            <button class="icon-button" id="newVibe" type="button" title="New vibe round">New vibe</button>
           </div>
-          <div class="guess-layout">
-            <div class="guess-photo-wrap">
-              <img id="guessPhoto" alt="">
-            </div>
-            <div class="guess-options" id="guessOptions"></div>
-          </div>
-        </section>
-
-        <section class="view" id="moves">
-          <div class="toolbar">
-            <h2>Signature Moves</h2>
-            <button class="icon-button" id="nextMove" type="button" title="Next clue">Next</button>
-          </div>
-          <div class="moves-game">
-            <div class="clue-card">
-              <span id="moveRound">Round 1</span>
-              <strong id="moveClue"></strong>
-              <p id="moveFeedback">Pick the friend who owns this signature move.</p>
-            </div>
-            <div class="move-options" id="moveOptions"></div>
-          </div>
-        </section>
-
-        <section class="view" id="squad">
-          <div class="toolbar">
-            <h2>Squad Builder</h2>
-            <button class="icon-button" id="resetSquad" type="button" title="Reset squad">Reset</button>
-          </div>
-          <div class="squad-layout">
-            <div class="mission-card">
-              <span>Mission</span>
-              <strong id="missionTitle"></strong>
-              <p id="missionBrief"></p>
-              <button class="icon-button dark" id="newMission" type="button">New mission</button>
-            </div>
-            <div class="squad-slots" id="squadSlots"></div>
-            <div class="squad-pool" id="squadPool"></div>
+          <div class="vibe-layout">
+            <article class="vibe-card">
+              <span id="vibeRound">Round 1</span>
+              <strong id="vibeTitle"></strong>
+              <p id="vibeBrief"></p>
+              <div class="vibe-meter"><span id="vibeMeter"></span></div>
+            </article>
+            <div class="vibe-picks" id="vibePicks"></div>
+            <div class="vibe-pool" id="vibePool"></div>
           </div>
         </section>
 
@@ -147,13 +106,6 @@
           <div class="award-grid" id="awardGrid"></div>
         </section>
 
-        <section class="view" id="bingo">
-          <div class="toolbar">
-            <h2>Graduation Bingo</h2>
-            <button class="icon-button" id="resetBingo" type="button" title="Reset bingo">Reset</button>
-          </div>
-          <div class="bingo-board" id="bingoBoard"></div>
-        </section>
       </section>
     </main>
 
