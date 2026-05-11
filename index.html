@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Graduation Memories</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Graduation day</p>
+          <h1>Memories & Vibes</h1>
+        </div>
+
+        <nav class="tabs" aria-label="Views">
+          <button class="tab active" type="button" data-view="stage">Stage</button>
+          <button class="tab" type="button" data-view="gallery">Wall</button>
+          <button class="tab" type="button" data-view="trio">Trio</button>
+          <button class="tab" type="button" data-view="match">Match</button>
+          <button class="tab" type="button" data-view="guess">Guess</button>
+          <button class="tab" type="button" data-view="moves">Moves</button>
+          <button class="tab" type="button" data-view="squad">Squad</button>
+          <button class="tab" type="button" data-view="awards">Awards</button>
+          <button class="tab" type="button" data-view="bingo">Bingo</button>
+        </nav>
+
+        <section class="mood-panel" aria-label="Vibe mode">
+          <button class="mood-button active" type="button" data-mood="sunset">Sunset</button>
+          <button class="mood-button" type="button" data-mood="midnight">Midnight</button>
+          <button class="mood-button" type="button" data-mood="campus">Campus</button>
+        </section>
+
+        <section class="score-panel" aria-label="Game score">
+          <div>
+            <span>Matches</span>
+            <strong id="matchScore">0 / 13</strong>
+          </div>
+          <div>
+            <span>Guess streak</span>
+            <strong id="guessScore">0</strong>
+          </div>
+        </section>
+      </aside>
+
+      <section class="content">
+        <section class="view active" id="stage">
+          <div class="stage-scene">
+            <div class="stage-copy">
+              <p class="eyebrow">Class crew</p>
+              <h2>One day, thirteen stories</h2>
+              <p class="stage-line" id="stageLine"></p>
+              <div class="stage-actions">
+                <button class="icon-button dark" id="spinSpotlight" type="button">Spotlight</button>
+                <button class="icon-button" id="confettiButton" type="button">Confetti</button>
+              </div>
+            </div>
+            <div class="spotlight-card">
+              <div class="spotlight-glow"></div>
+              <img id="spotlightAvatar" alt="">
+              <div class="spotlight-caption">
+                <span id="spotlightRole"></span>
+                <strong id="spotlightName"></strong>
+              </div>
+            </div>
+          </div>
+          <div class="lineup-stage" id="lineupStage"></div>
+          <div class="memory-reel" id="memoryReel"></div>
+        </section>
+
+        <section class="view" id="gallery">
+          <div class="toolbar">
+            <h2>Yearbook Wall</h2>
+            <button class="icon-button" id="shuffleGallery" type="button" title="Shuffle gallery">Shuffle</button>
+          </div>
+          <div class="friend-grid" id="friendGrid"></div>
+        </section>
+
+        <section class="view" id="trio">
+          <div class="toolbar">
+            <h2>Zaki, Omar & Shbeeb</h2>
+            <button class="icon-button" id="trioSceneButton" type="button" title="Change trio scene">Scene</button>
+          </div>
+          <div class="trio-hero" id="trioHero"></div>
+          <div class="trio-strip" id="trioStrip"></div>
+        </section>
+
+        <section class="view" id="match">
+          <div class="toolbar">
+            <h2>Memory Match</h2>
+            <button class="icon-button" id="resetMatch" type="button" title="Reset match game">Reset</button>
+          </div>
+          <div class="match-board" id="matchBoard"></div>
+        </section>
+
+        <section class="view" id="guess">
+          <div class="toolbar">
+            <h2>Guess The Friend</h2>
+            <button class="icon-button" id="nextGuess" type="button" title="Next friend">Next</button>
+          </div>
+          <div class="guess-layout">
+            <div class="guess-photo-wrap">
+              <img id="guessPhoto" alt="">
+            </div>
+            <div class="guess-options" id="guessOptions"></div>
+          </div>
+        </section>
+
+        <section class="view" id="moves">
+          <div class="toolbar">
+            <h2>Signature Moves</h2>
+            <button class="icon-button" id="nextMove" type="button" title="Next clue">Next</button>
+          </div>
+          <div class="moves-game">
+            <div class="clue-card">
+              <span id="moveRound">Round 1</span>
+              <strong id="moveClue"></strong>
+              <p id="moveFeedback">Pick the friend who owns this signature move.</p>
+            </div>
+            <div class="move-options" id="moveOptions"></div>
+          </div>
+        </section>
+
+        <section class="view" id="squad">
+          <div class="toolbar">
+            <h2>Squad Builder</h2>
+            <button class="icon-button" id="resetSquad" type="button" title="Reset squad">Reset</button>
+          </div>
+          <div class="squad-layout">
+            <div class="mission-card">
+              <span>Mission</span>
+              <strong id="missionTitle"></strong>
+              <p id="missionBrief"></p>
+              <button class="icon-button dark" id="newMission" type="button">New mission</button>
+            </div>
+            <div class="squad-slots" id="squadSlots"></div>
+            <div class="squad-pool" id="squadPool"></div>
+          </div>
+        </section>
+
+        <section class="view" id="awards">
+          <div class="toolbar">
+            <h2>Friend Awards</h2>
+            <button class="icon-button" id="rerollAwards" type="button" title="Reroll awards">Reroll</button>
+          </div>
+          <div class="award-grid" id="awardGrid"></div>
+        </section>
+
+        <section class="view" id="bingo">
+          <div class="toolbar">
+            <h2>Graduation Bingo</h2>
+            <button class="icon-button" id="resetBingo" type="button" title="Reset bingo">Reset</button>
+          </div>
+          <div class="bingo-board" id="bingoBoard"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
