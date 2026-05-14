@@ -9,6 +9,11 @@ const friendDetails = {
     note: "Clean fit, phone pose, and the kind of calm that looks intentional.",
     move: "The pocket mirror shot",
   },
+  amr: {
+    title: "Nile view",
+    note: "Brown leather, bright smile, and a balcony photo that already feels like graduation day.",
+    move: "The Nile balcony smile",
+  },
   ali: {
     title: "Velvet confidence",
     note: "Walks in calm, leaves the frame looking expensive.",
@@ -99,6 +104,7 @@ const friendDetails = {
 const friendNames = [
   "3bbas",
   "amgad",
+  "amr",
   "ali",
   "bassit",
   "fawzi",
@@ -147,6 +153,7 @@ const awards = [
   "Group-chat historian",
   "Ceremony scene stealer",
   "Night-photo specialist",
+  "Best skyline smile",
 ];
 
 const stageLines = [
@@ -195,7 +202,7 @@ const squadMissions = [
   },
   {
     title: "Food run before everybody vanishes",
-    brief: "Build the crew that can choose the place, collect the orders, and keep the mood alive.",
+    brief: "Pick the friends who can choose the place, collect the orders, and keep the mood alive.",
     roles: ["Decision", "Orders", "Energy"],
   },
   {
@@ -378,7 +385,7 @@ const uiCopy = {
     photoStatus: "Reveal the photo step by step before guessing.",
     wheelStatus: "Spin, pick a friend, and give them a mission.",
     bracketStatus: "Choose the winner in each face-off until one champion survives.",
-    finaleStatus: "Generate shareable ceremony cards for the whole crew.",
+    finaleStatus: "Generate shareable ceremony cards for all friends.",
   },
   ar: {
     sidebarTitle: "ذكريات وفايبس",
@@ -413,7 +420,7 @@ const tabLabels = {
     bracket: "Bracket",
     guess: "Guess",
     moves: "Moves",
-    squad: "Squad",
+    squad: "Mix",
     bingo: "Bingo",
     vibes: "Vibes",
     awards: "Awards",
@@ -1070,7 +1077,7 @@ function renderFinale() {
   friends.forEach((friend, index) => {
     const certificate = document.createElement("article");
     certificate.className = `certificate-card ${featuredNames.includes(friend.name) ? "featured-certificate" : ""}`;
-    certificate.innerHTML = `<span>${currentLanguage === "ar" ? "شهادة تخرج الشلة" : "Graduation crew certificate"}</span><strong>${
+    certificate.innerHTML = `<span>${currentLanguage === "ar" ? "شهادة تخرج الشلة" : "Graduation friends certificate"}</span><strong>${
       friend.name
     }</strong><p>${awardsList[index % awardsList.length]}</p><em>${friend.move}</em>`;
     certificate.prepend(createFriendThumb(friend, "certificate"));
